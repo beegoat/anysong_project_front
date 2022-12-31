@@ -1,22 +1,23 @@
+import { Routes, Route } from "react-router-dom";
+
+import BoardGet from "../components/Board/BoardGet";
+import BoardDetails from "../components/Board/BoardDetails";
+import BoardWrite from "../components/Board/BoardWrite";
+import BoardModify from "../components/Board/BoardModify";
+
 function Board(){
-    return (
-
-        <div className="drawer drawer-end">
-        <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content">
-            {/* <!-- Page content here --> */}
-            <label htmlFor="my-drawer-4" className="drawer-button btn btn-primary">Open drawer</label>
-        </div> 
-        <div className="drawer-side">
-            <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
-            <ul className="menu p-4 w-80 bg-base-100 text-base-content">
-                {/* <!-- Sidebar content here --> */}
-                <li><a>Sidebar Item 1</a></li>
-                <li><a>Sidebar Item 2</a></li>
-            </ul>
-        </div>
-    </div>
-
+    return(
+        <Routes>
+            <Route exact path="" element={<BoardGet boardName={"total"}/>} />
+            <Route path="/songreview" element={<BoardGet boardName={"songreview"}/>} />
+            <Route path="/albumreview" element={<BoardGet boardName={"albumreview"}/>} />
+            <Route path="/talk" element={<BoardGet boardName={"talk"}/>} />
+            <Route path="/question" element={<BoardGet boardName={"question"}/>} />
+            <Route path="/:id/:location" element={<BoardDetails />} />
+            <Route path="/:id" element={<BoardDetails />} />
+            <Route path="/write" element={<BoardWrite />} />
+            <Route path="/modify/:id" element={<BoardModify />} />
+        </Routes>
     )
 }
 

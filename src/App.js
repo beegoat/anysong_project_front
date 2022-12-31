@@ -1,18 +1,21 @@
 import { useState, useEffect } from "react";
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Link
-} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, Redirect} from "react-router-dom";
+import { withCookies, useCookies } from 'react-cookie';
 import axios from "axios"
 
-import Nav from "./components/Nav";
-import Footer from "./components/Footer";
+
 import Home from "./routes/Home";
 import Rating from "./routes/Rating";
 import Board from "./routes/Board";
-import RateDetail from "./components/RateDetail";
+import Login from "./routes/Login";
+import Join from "./routes/Join";
+
+import Nav from "./components/Nav";
+import Footer from "./components/Footer";
+import RateDetail from "./components/StarRating/RateDetail";
+
+
+
 
 
 function App() {
@@ -55,7 +58,8 @@ function App() {
                                     <div>
                                             {songs.map(
                                                 (songs) => (
-                                                    <Rating 
+                                                    <Rating
+                                                        key={songs.index}
                                                         id={songs.id}
                                                         img_url={songs.image_url} 
                                                         title={songs.title} 
@@ -67,7 +71,13 @@ function App() {
                                 }/>
                             </Routes>
                             <Routes>
-                                <Route path="/board" element={<Board />}/>
+                                <Route path="/board/*" element={<Board />} />
+                            </Routes>
+                            <Routes>
+                                <Route path="/getlogin" element={<Login />} />
+                            </Routes>
+                            <Routes>
+                                <Route path="/getjoin" element={<Join />} />
                             </Routes>
                         </Router>
                         <Footer />

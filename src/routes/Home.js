@@ -7,7 +7,7 @@ function Home(){
                 <img className="w-full h-full" src="img/banner.png" alt="banner"/>
             </div>
         
-        <div class="w-4/5 m-auto">
+        <div className="w-4/5 m-auto">
             <div className="m-auto text-left font-bold text-4xl p-10"> 평가 </div>
                 <div className="flex flex-col w-full lg:flex-row justify-evenly">
                     <div className="card card-compact w-2/5 bg-base-100 shadow-xl">
