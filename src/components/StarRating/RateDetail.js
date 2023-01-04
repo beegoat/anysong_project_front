@@ -4,11 +4,14 @@ import StarRating from "./StarRating";
 import Comment from "./Comment";
 
 
-function RateDetail({detailInfo}){
+function RateDetail({ detailInfo, userData }){
     const [article, setArticle] = useState("");
     const [modifyArticle, setModifyArticle] = useState("");
     const [comment, setComment] = useState([]);
     const [star, setStar] = useState();
+
+    // 로그인 정보
+    const [userInfo, setUserInfo] = useState([])
 
     // 앨범 id로 해당 앨범에 달린 댓글 조회 & detailInfo 변경 감지해서 해당 코멘트 조회하도록 useEffect
     const getComment = async (id) => {
@@ -22,12 +25,16 @@ function RateDetail({detailInfo}){
         return () => {}
     }, [detailInfo] )
 
+    useEffect(() => {
+        setUserInfo(userData)
+    }, [userData])
+
 
     // 댓글 작성, response 값으로 album_id로 조회한 쿼리 값 불러와서 setComment에 재배치해주면서 리렌더링해주고 있음.
     const postArticle = async (album_id, content) => {
         const response = await axios.post("http://localhost:3001/comment", {
             content: content,
-            user_id: "joodopa@gmail.com",
+            user_id: userInfo.user,
             album_id: album_id
         })
         setComment(response.data);
@@ -46,7 +53,7 @@ function RateDetail({detailInfo}){
     const deleteArticle = async (commentid, album_id) => {
         const response = await axios.delete(`http://localhost:3001/comment/${commentid}`, {
             data: {
-                album_id: album_id
+                album_id: album_id,
             }
         });
         setComment(response.data);
@@ -60,6 +67,7 @@ function RateDetail({detailInfo}){
                 content: article
             }
         });
+        console.log(response.data)
         setComment(response.data)
     }
 
@@ -67,7 +75,7 @@ function RateDetail({detailInfo}){
     const getScore = async( ) => {
         const response = await axios.get(`http://localhost:3001/rating`, {
             params : {
-                user_id: "joodopa@gmail.com",
+                user_id: userInfo.user,
                 album_id: detailInfo.id,
             }
         })
@@ -86,26 +94,20 @@ function RateDetail({detailInfo}){
                     data : {
                         rate : starRate,
                         album_id : detailInfo.id,
-                        user_id : "joodopa@gmail.com"
+                        user_id : userInfo.user
                     }})
                 setStar(response.data[0].rate);}
             } else {
                 await axios.delete(`http://localhost:3001/rating`, {
                     data: {
                         album_id: detailInfo.id,
-                        user_id: "joodopa@gmail.com"
+                        user_id: userInfo.id
                     }})
                 setStar();
             }
         }
             // setStar(starRate);
-        
-
-
-    useEffect(() => {
-        console.log("이것은 star가 set되고 난 뒤 나옵니다."+star)
-        // console.log("album id" + detailInfo.id)
-    }, [star])
+    
 
     return(
         <>
@@ -118,6 +120,7 @@ function RateDetail({detailInfo}){
 
                     star={star}
                     getStarFromComp={getStarFromComp}
+                    isLogin={userData}
                     />
                 </div>
                 <div className="mx-auto mt-16">
@@ -126,6 +129,7 @@ function RateDetail({detailInfo}){
                         <Comment 
                             id={com.comment_id}
                             album_id={com.album_id}
+                            user_id={com.user_id}
                             content={com.content}
                             nickname={com.nickname}
                             create_date={com.create_date}
@@ -133,13 +137,23 @@ function RateDetail({detailInfo}){
                             putArticle={putArticle}
                             modifyArticle={modifyArticle}
                             setModifyArticle={setModifyArticle}
+                            isAuthor={com.user_id===userInfo.user}
                         />)
                     )}
                 </div>
                 <div className="my-24"></div>
                 <div className="mx-12">
-                    <input type="text" placeholder="한 줄 소감을 남겨보세요!" className="input w-full max-w-xs" onChange={onChange} value={article}/>
-                    <button className="btn glass w-24" onClick={setArticleValue}>입력</button>
+                    {userData.user? (
+                        <>
+                        <input type="text" placeholder="한 줄 소감을 남겨보세요!" className="input w-full max-w-xs" onChange={onChange} value={article}/>
+                        <button className="btn glass w-24" onClick={setArticleValue}>입력</button>
+                        </>
+                    ) : (
+                            <>
+                            <input type="text" placeholder="로그인을 해 주세요!" className="input w-full max-w-xs" disabled />
+                            </>
+                        )
+                    }
                 </div>
         </>
     )

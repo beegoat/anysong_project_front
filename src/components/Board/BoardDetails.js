@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import BoardComment from './BoardComment';
 
-function BoardDetails( ) {
+function BoardDetails({ userData }) {
     const params = useParams();
     const navigate = useNavigate();
     const [article, setArticle] = useState([]);
@@ -27,7 +27,9 @@ function BoardDetails( ) {
     // 글 삭제 함수, 삭제 후 navigate로 경로 이동
     const deleteArticle = async() => {
         const id = params.id
-        const response = await axios.delete(`http://localhost:3001/board/${id}`, {})
+        const response = await axios.delete(`http://localhost:3001/board/${id}`, {
+            data: {user_id : article.user_id}
+        })
         if(response.status === 200 ){
             alert("글이 삭제되었습니다.");
             switch(article.category) {
@@ -57,7 +59,11 @@ function BoardDetails( ) {
 
     // 글 수정 함수, 누르면 수정 창으로 이동한다.
     const toModifyForm = () => {
+        if(userData.user === article.user_id) {
         navigate(`/board/modify/${article.id}`)
+        } else {
+            alert("권한이 없습니다.")
+        }
     }
 
     // 글 목록 버튼을 누르면, 원래 있던 게시판의 목록으로 돌아가는 함수 url params에 정보 싣어서 해당 params 응용 - 경로를 기억
@@ -91,7 +97,7 @@ function BoardDetails( ) {
     const createComment = async() => {
         const response = await axios.post(`http://localhost:3001/board/comment/${params.id}`, {
             content : commentArticle,
-            user_id : "joodopa@gmail.com"
+            user_id : userData.user
         })
         setComments(response.data[0])
         setCommentArticle("")
@@ -107,8 +113,12 @@ function BoardDetails( ) {
         <p>글 작성일자 : {article.created_date}</p>
         <div className='h-12'/>
         <div/>
-            <button className='btn btn-outline mr-5' onClick={toModifyForm}>수정</button>
-            <label htmlFor="delete-modal" className="btn">삭제</label>
+            {article.user_id === userData.user ? (
+                <>
+                    <button className='btn btn-outline mr-5' onClick={toModifyForm}>수정</button>
+                    <label htmlFor="delete-modal" className="btn">삭제</label>
+                </>
+            ) : null }
             <button className='btn' onClick={goToList}> 글 목록 </button>       
             <div>
                 {comments.map(
@@ -117,16 +127,19 @@ function BoardDetails( ) {
                         key = {comment.index}
                         boardComment = {comment}
                         setComments = {setComments}
+                        userData={userData}
                         />
                     )
                     )
                 }
             </div>
-            <div>
-            <textarea className="textarea" placeholder="댓글 작성" onChange={onChange} value={commentArticle}></textarea>
-            <button className="btn" onClick={createComment}>작성</button>
-            </div>
-
+            {userData.user? (
+                <div>
+                <textarea className="textarea" placeholder="댓글 작성" onChange={onChange} value={commentArticle}></textarea>
+                <button className="btn" onClick={createComment}>작성</button>
+                </div>
+            ) : 
+            <h1>댓글은 로그인한 회원만 달 수 있습니다.</h1> }
             <input type="checkbox" id="delete-modal" className="modal-toggle" />
                 <div className="modal">
                     <div className="modal-box">

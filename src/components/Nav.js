@@ -1,9 +1,19 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
+axios.defaults.withCredentials = true;
+
+function Nav({ userData }){
+
+    const [isAuth, setIsAuth] = useState("");
+    const [userName, setUserName] = useState("");
+
+    useEffect(() => {
+        setIsAuth(userData.isAuth)
+        setUserName(userData.nickname)
+    }, [userData])
 
 
-function Nav(){
 
     const [join, setJoin] = useState({
         id : "",
@@ -34,26 +44,28 @@ function Nav(){
     }
 
     const createUser = async() => {
-        const response = await axios.post('http://localhost:3001/user', {
+        await axios.post('http://localhost:3001/user', {
             id : join.id,
             nickname : join.nickname,
             password : join.password
         })
-        console.log(response)
         // response 번호에 따라 창을 끄고 값을 
         setJoin({id: "", nickname: "", password: "", passwordConfirm:""})
     }
 
     const getLogin = async() => {
-        const response = await axios.post('http://localhost:3001/login', {
+        await axios.post('http://localhost:3001/login', {
             id : login.id,
             password : login.password
         })
-        console.log(response)
         setLogin({
             id : "",
             password : "" 
         })
+    }
+
+    const logOut = () => {
+        axios.get("http://localhost:3001/logout")
     }
 
 
@@ -89,8 +101,18 @@ function Nav(){
                     <input type="text" placeholder="검색해보세요!" className="input input-ghost w-full max-w-xs hidden" />
                 </div>
                 <div className="flex-none">
+                { isAuth ? (
+                    <>
+                <div> 환영합니다 ! {userName} 님 ! </div>
+                <label className="btn" onClick={logOut}> 로그아웃 </label>
+                    </>
+                )
+                : (
+                    <>                    
                     <label htmlFor="login-modal" className="btn btn-outline btn-success mx-1">로그인</label>
                     <label htmlFor="join-modal" className="btn btn-success mx-1">회원가입</label>
+                    </>
+                ) }
                 </div>
             </div>
             {/* 로그인 모달 */}

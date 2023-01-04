@@ -1,10 +1,11 @@
+import { useEffect } from "react"
+
 function Rating({id, img_url, title, artist, setDrawerInfo}){
 
     // RateDetail에 선택한 앨범 표시하기 위해 App.js로 값 넘김
     const sendInfo = () => {
         setDrawerInfo(id, title, artist, img_url)
     }
-
 
     return (
 

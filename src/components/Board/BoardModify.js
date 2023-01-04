@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 
-function BoardModify(){
+function BoardModify({ userData }){
     const navigate = useNavigate();
     const params = useParams();
 
@@ -41,7 +41,7 @@ function BoardModify(){
         const response = await axios.put(`http://localhost:3001/board/${params.id}`, {
             subject : article.subject,
             content : article.content,
-            user_id : 'joodopa@gmail.com',
+            user_id : userData.user,
             category : categoryNum
         })
         let location = ""

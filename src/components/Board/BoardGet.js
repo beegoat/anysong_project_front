@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 
 
-function BoardGet( { boardName }){
+function BoardGet( { boardName, userData }){
     const [articles, setArticles] = useState([]);
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
@@ -20,6 +20,7 @@ function BoardGet( { boardName }){
         getArticles();
     }, [])
 
+
     return (
         <div>
             <div className="alert shadow-lg">
@@ -30,7 +31,9 @@ function BoardGet( { boardName }){
             </div>
             <div>
                 <div>
-                    <button className="btn" onClick={() => {console.log("클릭")}}><a href="http://localhost:3000/board/write">글쓰기</a></button>
+                    {userData.isAuth? (
+                        <button className="btn" onClick={() => {console.log("클릭")}}><a href="http://localhost:3000/board/write">글쓰기</a></button>
+                    ) : null}
                 </div>
                 <label>
                     페이지 당 표시할 게시물 수:&nbsp;

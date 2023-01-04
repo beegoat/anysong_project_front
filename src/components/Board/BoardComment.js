@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 
-function BoardComment({ boardComment, setComments }){
+function BoardComment({ boardComment, setComments, userData }){
+    
     const [modifyArticle, setModifyArticle] = useState("")
 
     const comment = boardComment;
@@ -24,7 +25,7 @@ function BoardComment({ boardComment, setComments }){
     const modifyComment = async() => {
         const response = await axios.put(`http://localhost:3001/board/comment/${comment.comment_id}`, {
             content : modifyArticle,
-            user_id : 'joodopa@gmail.com',
+            user_id : userData.user,
             board_id : comment.id
         })
         // console.log(response.data[0])
@@ -51,12 +52,18 @@ function BoardComment({ boardComment, setComments }){
                 <p>댓글 내용 : {comment.comment_content}</p>
                 <p>댓글 작성자 : {comment.comment_name}</p>
                 <p>댓글 작성일자 : {comment.c_created_date}</p>
-                <div>
+                {boardComment.comment_user === userData.user ? (
+                    <>
+                    <div>
                         <a href={bridgeModifyModal} className="btn">수정</a>
                     </div>
                     <div>
                         <a href={bridgeDeleteModal}className="btn">삭제</a>
                     </div>
+                </>
+
+                ) : null }
+
                 </>
             ) : null }
         

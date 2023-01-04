@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {BrowserRouter as Router, Routes, Route, Redirect} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, useNavigate, Link} from "react-router-dom";
 import { withCookies, useCookies } from 'react-cookie';
 import axios from "axios"
 
@@ -15,11 +15,19 @@ import Footer from "./components/Footer";
 import RateDetail from "./components/StarRating/RateDetail";
 
 
-
-
-
 function App() {
 
+    const [userData, setUserData] = useState("");
+
+    useEffect(() => {
+        axios.post("http://localhost:3001/jwtauthcheck")
+        .then((res) => {
+            setUserData(res.data);
+        })
+    }, []);
+    
+
+    // 
     const [songs, setSongs] = useState([]);
     const [detailInfo, setDetailInfo] = useState([]);
 
@@ -41,15 +49,16 @@ function App() {
     }
 
     return (
+        
         <div>
             <div>
-                {/* <button onClick={getInfo}>ㅇㅅㅇ</button> */}
                 <div className="drawer drawer-end -z-10">
                     <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
                     <div className="drawer-content">
             {/* <!-- Page content here --> */}
-                    <Nav />
-                        <Router>
+                    <Nav 
+                        userData={userData}
+                        />
                             <Routes>
                                 <Route path="/" element={<Home />}/>
                             </Routes>
@@ -71,7 +80,10 @@ function App() {
                                 }/>
                             </Routes>
                             <Routes>
-                                <Route path="/board/*" element={<Board />} />
+                                <Route path="/board/*" element={
+                                <Board 
+                                    userData={userData}/>
+                                } />
                             </Routes>
                             <Routes>
                                 <Route path="/getlogin" element={<Login />} />
@@ -79,7 +91,6 @@ function App() {
                             <Routes>
                                 <Route path="/getjoin" element={<Join />} />
                             </Routes>
-                        </Router>
                         <Footer />
                     </div> 
                     <div className="drawer-side">
@@ -89,6 +100,7 @@ function App() {
                             {detailInfo === [] ? null : 
                                 <RateDetail
                                     detailInfo={detailInfo}
+                                    userData={userData}
                                 />
                             }
                         </ul>

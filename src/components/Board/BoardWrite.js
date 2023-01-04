@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 
-function BoardWrite(){
+function BoardWrite({ userData }){
     const navigate = useNavigate();
 
     const [article, setArticle] = useState({
@@ -20,12 +20,16 @@ function BoardWrite(){
         });
     }
 
+    useEffect(() => {
+        console.log(userData)
+    }, [userData])
+
 
     const createArticle = async () => {
         const response = await axios.post("http://localhost:3001/board", {
             subject : article.subject,
             content : article.content,
-            user_id : 'joodopa@gmail.com',
+            user_id : userData.user,
             category : categoryNum
         })
         navigate(`/board/${response.data[0][0].id}/total`);

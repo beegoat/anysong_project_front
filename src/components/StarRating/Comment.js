@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
-function Comment({id, album_id, content, nickname, create_date, deleteArticle, putArticle, modifyArticle, setModifyArticle}){
+function Comment({id, album_id, content, nickname, create_date, deleteArticle, putArticle, modifyArticle, setModifyArticle, isAuthor}){
 
+    
     const [modalId, setModalId] = useState(0);
 
     useEffect( () => {
@@ -12,8 +13,6 @@ function Comment({id, album_id, content, nickname, create_date, deleteArticle, p
     const bridgeModifyModal2 = `modify${modalId}`;
     const bridgeDeleteModal = `#delete${modalId}`;
     const bridgeDeleteModal2 = `delete${modalId}`;
-
-
 
     const onChange = (e) => {
         setModifyArticle(e.target.value)
@@ -48,11 +47,18 @@ function Comment({id, album_id, content, nickname, create_date, deleteArticle, p
                 <td><div>{nickname}</div><div className="text-sm">{create_date}</div></td>
                 <td>
                     <div>
-                        <a href={bridgeModifyModal} className="btn" onClick={getPrevComment}>수정</a>
+                        {isAuthor? (
+                            <>
+                                <div>
+                                    <a href={bridgeModifyModal} className="btn" onClick={getPrevComment}>수정</a>
+                                </div>
+                                <div>
+                                    <a href={bridgeDeleteModal}className="btn">삭제</a>
+                                </div>
+                            </>
+                        ) : null}
                     </div>
-                    <div>
-                        <a href={bridgeDeleteModal}className="btn">삭제</a>
-                    </div>
+
                 </td>
             </tr>
         </tbody>
