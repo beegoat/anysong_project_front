@@ -1,24 +1,63 @@
-import { useEffect } from "react"
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 
-function Rating({id, img_url, title, artist, setDrawerInfo}){
+import SongsGet from "../components/SongsGet";
 
-    // RateDetail에 선택한 앨범 표시하기 위해 App.js로 값 넘김
-    const sendInfo = () => {
-        setDrawerInfo(id, title, artist, img_url)
+function Rating({ setDrawerInfo }){
+    const [songs, setSongs] = useState([]);
+    const [albums, setAlbums] = useState([]);
+
+    const getMusicInfo = async () => {
+        const getSongs = await axios.get(
+            'http://localhost:3001/songs', {});
+        setSongs(getSongs.data)
+        const getAlbums = await axios.get(
+            'http://localhost:3001/albums', {});
+        setAlbums(getAlbums.data)
     }
 
-    return (
-
-            <div className="card w-96 bg-base-100 shadow-xl inline-flex m-5">
-                <figure><img src={img_url} alt="album_photo" /></figure>
-                    <div className="card-body">
-                    <h2 className="card-title">{title}</h2>
-                    <p>{artist}</p>
-                    <label htmlFor="my-drawer-4" className="drawer-button btn btn-primary" onClick={sendInfo}>평가하기</label>
-                    <div className="card-actions justify-end">
-                    </div>
+    useEffect(() => {
+        getMusicInfo()
+    }, [])
+    
+    return(
+        <Routes>
+            <Route path="/songs" element={
+                <div>
+                    {songs.map(
+                        (song) => (
+                            <SongsGet
+                                key={song.index}
+                                id={song.id}
+                                img_url={song.image_url}
+                                title={song.title}
+                                artist={song.artist}
+                                setDrawerInfo={setDrawerInfo}
+                                isSong={true}
+                                isAlbum={false}
+                        />)
+                    )}
                 </div>
-            </div>
+            }/>
+            <Route path="/albums" element={
+                <div>
+                    {albums.map(
+                        (album) => (
+                            <SongsGet
+                                key={album.index}
+                                id={album.id}
+                                img_url={album.image_url}
+                                title={album.title}
+                                artist={album.artist}
+                                setDrawerInfo={setDrawerInfo}
+                                isSong={false}
+                                isAlbum={true}
+                        />)
+                    )}
+                </div>
+            }/>
+        </Routes>
     )
 }
 

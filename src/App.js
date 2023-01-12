@@ -7,8 +7,6 @@ import axios from "axios"
 import Home from "./routes/Home";
 import Rating from "./routes/Rating";
 import Board from "./routes/Board";
-import Login from "./routes/Login";
-import Join from "./routes/Join";
 
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
@@ -28,24 +26,11 @@ function App() {
     
 
     // 
-    const [songs, setSongs] = useState([]);
     const [detailInfo, setDetailInfo] = useState([]);
 
-    // DB에서 앨범 정보 불러오고 있음
-    const getSongs = async () => {
-        const response = await axios.get(
-            `http://localhost:3001`, {});
-            setSongs(response.data)
-        }
-
-    // 페이지 로딩되고 한 번만 DB 불러오도록 useEffect
-    useEffect(() => {
-        getSongs();
-    }, []);
-
     // Rating에서 특정 앨범의 값 가져와서 detailInfo 값에 넣고, 이를 RateDetail에 전달중
-    const setDrawerInfo = (id, title, artist, img) => {
-        setDetailInfo({id, title, artist, img})
+    const setDrawerInfo = (id, title, artist, img, isSong, isAlbum) => {
+        setDetailInfo({id, title, artist, img, isSong, isAlbum})
     }
 
     return (
@@ -63,33 +48,16 @@ function App() {
                                 <Route path="/" element={<Home />}/>
                             </Routes>
                             <Routes>
-                                <Route path="/rating" element={
-                                    <div>
-                                            {songs.map(
-                                                (songs) => (
-                                                    <Rating
-                                                        key={songs.index}
-                                                        id={songs.id}
-                                                        img_url={songs.image_url} 
-                                                        title={songs.title} 
-                                                        artist={songs.artist}
-                                                        setDrawerInfo={setDrawerInfo}
-                                                />)
-                                            )}
-                                    </div>
-                                }/>
+                                <Route path="/rating/*" element={
+                                <Rating 
+                                    setDrawerInfo={setDrawerInfo} />
+                                } />
                             </Routes>
                             <Routes>
                                 <Route path="/board/*" element={
                                 <Board 
                                     userData={userData}/>
                                 } />
-                            </Routes>
-                            <Routes>
-                                <Route path="/getlogin" element={<Login />} />
-                            </Routes>
-                            <Routes>
-                                <Route path="/getjoin" element={<Join />} />
                             </Routes>
                         <Footer />
                     </div> 

@@ -4,7 +4,17 @@ module.exports = {
         "./src/**/*.{js,jsx,ts,tsx}",
       ],
   theme: {
-    extend: {},
+    extend: {
+        colors:{
+            'bannerColor' : '#F4F1E9'
+        },
+        fontFamily: {
+            sans: ["Arita-dotum-Medium", "Arial", "sans-serif"], 
+            // sans가 제일 기본 상속 폰트이므로 전체 폰트바꾸려면 sans재지정후 맨앞에 원하는 폰트 넣기
+          
+            arita: ["Arita-dotum-Medium", "sans-serif"],
+        }
+    },
   },
   plugins: [
     require("daisyui")

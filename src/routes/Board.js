@@ -13,6 +13,7 @@ function Board({ userData }){
             <Route path="/albumreview" element={<BoardGet boardName={"albumreview"} userData={userData}/>} />
             <Route path="/talk" element={<BoardGet boardName={"talk"} userData={userData}/>} />
             <Route path="/question" element={<BoardGet boardName={"question"} userData={userData}/>} />
+            <Route path="/notice" element={<BoardGet boardName={"notice"} userData={userData} />} />
             <Route path="/:id/:location" element={<BoardDetails userData={userData} />} />
             <Route path="/:id" element={<BoardDetails userData={userData} />} />
             <Route path="/write" element={<BoardWrite userData={userData} />} />

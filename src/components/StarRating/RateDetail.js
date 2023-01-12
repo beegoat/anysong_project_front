@@ -15,9 +15,15 @@ function RateDetail({ detailInfo, userData }){
 
     // 앨범 id로 해당 앨범에 달린 댓글 조회 & detailInfo 변경 감지해서 해당 코멘트 조회하도록 useEffect
     const getComment = async (id) => {
-        const response = await axios.get(`http://localhost:3001/comment/${id}`,{});
+        const response = await axios.get(`http://localhost:3001/comment/${id}`,{
+            params : {
+            isSong : detailInfo.isSong,
+            isAlbum : detailInfo.isAlbum
+            }
+        });
         setComment(response.data);
     }
+
 
     useEffect(() => {
         getComment(detailInfo.id);
@@ -31,11 +37,13 @@ function RateDetail({ detailInfo, userData }){
 
 
     // 댓글 작성, response 값으로 album_id로 조회한 쿼리 값 불러와서 setComment에 재배치해주면서 리렌더링해주고 있음.
-    const postArticle = async (album_id, content) => {
+    const postArticle = async (id, content) => {
         const response = await axios.post("http://localhost:3001/comment", {
             content: content,
             user_id: userInfo.user,
-            album_id: album_id
+            id: id,
+            isSong : detailInfo.isSong,
+            isAlbum : detailInfo.isAlbum
         })
         setComment(response.data);
     }
@@ -53,21 +61,24 @@ function RateDetail({ detailInfo, userData }){
     const deleteArticle = async (commentid, album_id) => {
         const response = await axios.delete(`http://localhost:3001/comment/${commentid}`, {
             data: {
-                album_id: album_id,
+                id : detailInfo.id,
+                isSong : detailInfo.isSong,
+                isAlbum : detailInfo.isAlbum
             }
         });
         setComment(response.data);
     }
 
     // 댓글 수정, response 값 받아와서 갱신
-    const putArticle = async(commentid, album_id, article) => {
+    const putArticle = async(commentid, id, article) => {
         const response = await axios.put(`http://localhost:3001/comment/${commentid}`, {
             data: {
-                album_id: album_id,
-                content: article
+                id: id,
+                content: article,
+                isSong : detailInfo.isSong,
+                isAlbum : detailInfo.isAlbum
             }
         });
-        console.log(response.data)
         setComment(response.data)
     }
 
@@ -76,7 +87,9 @@ function RateDetail({ detailInfo, userData }){
         const response = await axios.get(`http://localhost:3001/rating`, {
             params : {
                 user_id: userInfo.user,
-                album_id: detailInfo.id,
+                id: detailInfo.id,
+                isSong : detailInfo.isSong,
+                isAlbum : detailInfo.isAlbum
             }
         })
         if(response.data[0]){
@@ -93,15 +106,19 @@ function RateDetail({ detailInfo, userData }){
                 const response = await axios.post(`http://localhost:3001/rating`, {
                     data : {
                         rate : starRate,
-                        album_id : detailInfo.id,
-                        user_id : userInfo.user
+                        id : detailInfo.id,
+                        user_id : userInfo.user,
+                        isSong : detailInfo.isSong,
+                        isAlbum : detailInfo.isAlbum
                     }})
                 setStar(response.data[0].rate);}
             } else {
                 await axios.delete(`http://localhost:3001/rating`, {
                     data: {
-                        album_id: detailInfo.id,
-                        user_id: userInfo.id
+                        user_id: userInfo.user,
+                        id : detailInfo.id,
+                        isSong : detailInfo.isSong,
+                        isAlbum : detailInfo.isAlbum
                     }})
                 setStar();
             }
@@ -111,14 +128,13 @@ function RateDetail({ detailInfo, userData }){
 
     return(
         <>
-            <button onClick={getScore}>확인</button>
             <li><img src={detailInfo.img} className="mx-auto w-fit"></img></li>
                 <li className="font-bold text-3xl mx-auto mt-5 mb-1">{detailInfo.title}</li>
                 <li className="text-2xl mx-auto mb-10">{detailInfo.artist}</li>
                 <div className="mx-auto">
                     <StarRating 
-
                     star={star}
+                    setStar={setStar}
                     getStarFromComp={getStarFromComp}
                     isLogin={userData}
                     />
@@ -127,8 +143,8 @@ function RateDetail({ detailInfo, userData }){
                     {comment.map(
                         (com) => (
                         <Comment 
-                            id={com.comment_id}
-                            album_id={com.album_id}
+                            commentId={com.comment_id}
+                            id={com.id}
                             user_id={com.user_id}
                             content={com.content}
                             nickname={com.nickname}

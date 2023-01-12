@@ -32,7 +32,7 @@ function BoardGet( { boardName, userData }){
             <div>
                 <div>
                     {userData.isAuth? (
-                        <button className="btn" onClick={() => {console.log("클릭")}}><a href="http://localhost:3000/board/write">글쓰기</a></button>
+                        <button className="btn"><a href="http://localhost:3000/board/write">글쓰기</a></button>
                     ) : null}
                 </div>
                 <label>

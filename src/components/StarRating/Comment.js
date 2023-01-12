@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
-function Comment({id, album_id, content, nickname, create_date, deleteArticle, putArticle, modifyArticle, setModifyArticle, isAuthor}){
+function Comment({commentId, id, content, nickname, create_date, deleteArticle, putArticle, modifyArticle, setModifyArticle, isAuthor}){
 
     
     const [modalId, setModalId] = useState(0);
 
     useEffect( () => {
-        setModalId(id);
+        setModalId(commentId);
     }, [])
 
     const bridgeModifyModal = `#modify${modalId}`;
@@ -27,12 +27,12 @@ function Comment({id, album_id, content, nickname, create_date, deleteArticle, p
     }
 
     const bridgePut = () => {
-        putArticle(id, album_id, modifyArticle);
+        putArticle(commentId, id, modifyArticle);
     }
 
 
     const bridgeDelete = () => {
-        deleteArticle(id, album_id);
+        deleteArticle(commentId, id);
     }
 
 

@@ -1,63 +1,59 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
 
 function Home(){
+
+    const [topRating, setTopRating] = useState([])
+
+    const getTopRate = async() => {
+        const response = await axios.get("http://localhost:3001/getTopRate")
+        setTopRating(response.data)
+    }
+
+    useEffect(() => { 
+    getTopRate()
+    }, [])
+
+
+
+
     return(
     <div>
-            <div className="w-full h-96">
-                <img className="w-full h-full" src="img/banner.png" alt="banner"/>
+            <div className="w-full h-2/5">
+                <img className="w-full h-full" src="img/mainbanner4.png" alt="banner"/>
             </div>
         
         <div className="w-4/5 m-auto">
             <div className="m-auto text-left font-bold text-4xl p-10"> 평가 </div>
                 <div className="flex flex-col w-full lg:flex-row justify-evenly">
-                    <div className="card card-compact w-2/5 bg-base-100 shadow-xl">
-                        <figure><Link to="/rating"><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></Link></figure>
-                        <div className="card-body">
-                            <h2 className="text-center text-3xl font-bold"> 신곡 / 발매예정 </h2>
-                            <p className="text-center">새로 발매된 음악과 💿 <br/>발매예정 음악 ⏰<br/> 평가해보세요! ⭐️</p>
-                            <div className="card-actions justify-end">
-                            </div>
-                        </div>
+                    <div className="card card-compact w-1/5 h-1/5 bg-base-100 shadow-xl border">
+                        <figure><Link to="/rating/albums"><img src="img/albumrate.png" alt="newReleased" /></Link></figure>
                     </div>
-                    <div className="card card-compact w-2/5 bg-base-100 shadow-xl">
-                        <figure><Link to="/rating"><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></Link></figure>
-                        <div className="card-body">
-                            <h2 className="text-center text-3xl font-bold"> 음악 </h2>
-                            <p className="text-center">🔥 최신 노래부터 😎<br/>🍃 추억의 노래까지 😌<br/> 내 점수는 몇 점? ⭐️</p>
-                            <div className="card-actions justify-end">
-                            </div>
-                        </div>
+                    <div className="card card-compact w-1/5 h-1/5 bg-base-100 shadow-xl">
+                        <figure><Link to="/rating/songs"><img src="img/musicrate.png" alt="musicRate" /></Link></figure>
                     </div>
             </div>
             <div className="m-auto text-left font-bold text-4xl p-10"> 오늘의 명반 </div>
             <div className="flex flex-col w-full lg:flex-row justify-evenly">
             <div className="card w-80 bg-base-100 shadow-xl image-full">
-                <figure><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></figure>
+                <figure><img src={topRating.albumUrl} alt="album" /></figure>
                 <div className="card-body">
-                    <h2 className="card-title">Shoes!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
+                    <h2 className="card-title">{topRating.albumTitle}</h2>
+                    <p>{topRating.albumArtist}</p>
                     <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Buy Now</button>
+                    <button className="btn btn-primary">평점 {topRating.albumRate}</button>
                     </div>
                 </div>
             </div>
             <div className="card w-80 bg-base-100 shadow-xl image-full">
-                <figure><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></figure>
+                <figure><img src={topRating.songUrl} alt="song" /></figure>
                 <div className="card-body">
-                    <h2 className="card-title">Shoes!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
+                    <h2 className="card-title">{topRating.songTitle}</h2>
+                    <p>{topRating.songArtist}</p>
                     <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Buy Now</button>
-                    </div>
-                </div>
-            </div>
-            <div className="card w-80 bg-base-100 shadow-xl image-full">
-                <figure><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></figure>
-                <div className="card-body">
-                    <h2 className="card-title">Shoes!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Buy Now</button>
+                    <button className="btn btn-primary">평점 {topRating.songRate}</button>
                     </div>
                 </div>
             </div>
