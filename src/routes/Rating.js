@@ -3,10 +3,15 @@ import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import SongsGet from "../components/SongsGet";
+import RatingCarousel from "../components/RatingCarousel";
 
 function Rating({ setDrawerInfo }){
     const [songs, setSongs] = useState([]);
     const [albums, setAlbums] = useState([]);
+
+    const [limit, setLimit] = useState(6);
+    const [page, setPage] = useState(1);
+    const offset = (page - 1) * limit
 
     const getMusicInfo = async () => {
         const getSongs = await axios.get(
@@ -24,8 +29,15 @@ function Rating({ setDrawerInfo }){
     return(
         <Routes>
             <Route path="/songs" element={
-                <div>
-                    {songs.map(
+                <div className="flex">
+                <RatingCarousel 
+                    total={songs.length}
+                    limit={limit}
+                    page={page}
+                    setPage={setPage}
+                >
+                <div className="flex flex-wrap justify-center">
+                    {songs.slice(offset, offset + limit).map(
                         (song) => (
                             <SongsGet
                                 key={song.index}
@@ -39,10 +51,18 @@ function Rating({ setDrawerInfo }){
                         />)
                     )}
                 </div>
+                </RatingCarousel>
+                </div>
             }/>
             <Route path="/albums" element={
-                <div>
-                    {albums.map(
+                <div className="flex">
+                <RatingCarousel 
+                    total={albums.length}
+                    limit={limit}
+                    page={page}
+                    setPage={setPage}>
+                <div className="flex flex-wrap justify-center">
+                    {albums.slice(offset, offset + limit).map(
                         (album) => (
                             <SongsGet
                                 key={album.index}
@@ -56,6 +76,8 @@ function Rating({ setDrawerInfo }){
                         />)
                     )}
                 </div>
+                </RatingCarousel>
+            </div>
             }/>
         </Routes>
     )

@@ -24,6 +24,10 @@ function BoardDetails({ userData }) {
         getArticle();
     }, [])
 
+    useEffect(() => {
+        console.log(comments)
+    }, [comments])
+
     // 글 삭제 함수, 삭제 후 navigate로 경로 이동
     const deleteArticle = async() => {
         const id = params.id
@@ -59,7 +63,7 @@ function BoardDetails({ userData }) {
 
     // 글 수정 함수, 누르면 수정 창으로 이동한다.
     const toModifyForm = () => {
-        if(userData.user === article.user_id) {
+        if(userData.user === article.user_id ||  userData.isAdmin ) {
         navigate(`/board/modify/${article.id}`)
         } else {
             alert("권한이 없습니다.")
@@ -94,6 +98,7 @@ function BoardDetails({ userData }) {
         setCommentArticle(e.target.value);
     }
 
+    // 댓글 C, U, D 함수
     const createComment = async() => {
         const response = await axios.post(`http://localhost:3001/board/comment/${params.id}`, {
             content : commentArticle,
@@ -105,6 +110,28 @@ function BoardDetails({ userData }) {
         // navigate(0);
     }
 
+    const deleteComment = async(comment_id, id) => {
+        const response = await axios.delete(`http://localhost:3001/board/comment/${comment_id}`, {
+            data : {
+                board_id : id,
+                isAdmin : userData.isAdmin
+            }
+        })
+        setComments(response.data[0])
+        console.log(response.data)
+    }
+
+    const modifyComment = async(modifyArticle, comment_id, board_id) => {
+        const response = await axios.put(`http://localhost:3001/board/comment/${comment_id}`, {
+            content : modifyArticle,
+            user_id : userData.user,
+            board_id : board_id,
+            isAdmin : userData.isAdmin
+        })
+        setComments(response.data[0])
+        console.log(response.data)
+    }
+
     return(
         <>
         <h2>글 id : {article.id}</h2>
@@ -113,7 +140,7 @@ function BoardDetails({ userData }) {
         <p>글 작성일자 : {article.created_date}</p>
         <div className='h-12'/>
         <div/>
-            {article.user_id === userData.user ? (
+            {article.user_id === userData.user || userData.isAdmin ? (
                 <>
                     <button className='btn btn-outline mr-5' onClick={toModifyForm}>수정</button>
                     <label htmlFor="delete-modal" className="btn">삭제</label>
@@ -126,7 +153,8 @@ function BoardDetails({ userData }) {
                     <BoardComment
                         key = {comment.index}
                         boardComment = {comment}
-                        setComments = {setComments}
+                        deleteComment={deleteComment}
+                        modifyComment={modifyComment}
                         userData={userData}
                         />
                     )

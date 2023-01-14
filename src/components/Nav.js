@@ -20,6 +20,7 @@ function Nav({ userData }){
     useEffect(() => {
         setIsAuth(userData.isAuth)
         setUserName(userData.nickname)
+        console.log()
     }, [userData])
 
 
@@ -196,7 +197,7 @@ function Nav({ userData }){
             <div className="navbar bg-white">
                 <div className="flex-1">
                     <a href="/" className="btn btn-ghost normal-case text-4xl">
-                        <img src="img/logowhite.png" className="w-full h-full"/>
+                        <img src="img/movinglogo.gif" className="w-full h-full"/>
                     </a>
                     <div className="flex items-center justify-center w-full">
                     <label className="btn btn-ghost m-1 text-lg"> <a href="/board/notice"> 공지사항</a> </label>

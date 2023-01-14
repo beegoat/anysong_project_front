@@ -13,7 +13,7 @@ function RateDetail({ detailInfo, userData }){
     // 로그인 정보
     const [userInfo, setUserInfo] = useState([])
 
-    // 앨범 id로 해당 앨범에 달린 댓글 조회 & detailInfo 변경 감지해서 해당 코멘트 조회하도록 useEffect
+    // id로 해당 앨범에 달린 댓글 조회 & detailInfo 변경 감지해서 해당 코멘트 조회하도록 useEffect
     const getComment = async (id) => {
         const response = await axios.get(`http://localhost:3001/comment/${id}`,{
             params : {
@@ -34,6 +34,7 @@ function RateDetail({ detailInfo, userData }){
     useEffect(() => {
         setUserInfo(userData)
     }, [userData])
+
 
 
     // 댓글 작성, response 값으로 album_id로 조회한 쿼리 값 불러와서 setComment에 재배치해주면서 리렌더링해주고 있음.
@@ -63,7 +64,8 @@ function RateDetail({ detailInfo, userData }){
             data: {
                 id : detailInfo.id,
                 isSong : detailInfo.isSong,
-                isAlbum : detailInfo.isAlbum
+                isAlbum : detailInfo.isAlbum,
+                isAdmin : userInfo.isAdmin
             }
         });
         setComment(response.data);
@@ -76,7 +78,8 @@ function RateDetail({ detailInfo, userData }){
                 id: id,
                 content: article,
                 isSong : detailInfo.isSong,
-                isAlbum : detailInfo.isAlbum
+                isAlbum : detailInfo.isAlbum,
+                isAdmin : userInfo.isAdmin
             }
         });
         setComment(response.data)
@@ -154,6 +157,7 @@ function RateDetail({ detailInfo, userData }){
                             modifyArticle={modifyArticle}
                             setModifyArticle={setModifyArticle}
                             isAuthor={com.user_id===userInfo.user}
+                            isAdmin={userInfo.isAdmin}
                         />)
                     )}
                 </div>

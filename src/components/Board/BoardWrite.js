@@ -52,11 +52,16 @@ function BoardWrite({ userData }){
                 onChange={({target: {value}}) => setCategoryNum(Number(value))}
                 required
                 >
-                    <option value="">카테고리 선택</option>
-                    <option value="1">음악리뷰</option>
-                    <option value="2">앨범리뷰</option>
-                    <option value="3">잡담/기타</option>
-                    <option value="4">질문</option>
+                    {userData.isAdmin ?(
+                        <option value="5">공지사항</option>):(
+                        <>
+                            <option value="">카테고리 선택</option>
+                            <option value="1">음악리뷰</option>
+                            <option value="2">앨범리뷰</option>
+                            <option value="3">잡담/기타</option>
+                            <option value="4">질문</option>
+                        </>
+                    )}
                 </select>
                 <div className="flex justify-around">
                     <input type="text" placeholder="제목 입력" className="input input-bordered w-full max-w-xs" onChange={onChange} value={article.subject} name="subject"/>

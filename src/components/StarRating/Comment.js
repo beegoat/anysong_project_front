@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 
-function Comment({commentId, id, content, nickname, create_date, deleteArticle, putArticle, modifyArticle, setModifyArticle, isAuthor}){
+function Comment({commentId, id, content, nickname, create_date, deleteArticle, putArticle, modifyArticle, setModifyArticle, isAuthor, isAdmin}){
 
-    
+    useEffect(() => {
+        console.log(isAdmin)
+    }, [isAdmin]) 
+
+
     const [modalId, setModalId] = useState(0);
 
     useEffect( () => {
@@ -47,7 +51,7 @@ function Comment({commentId, id, content, nickname, create_date, deleteArticle, 
                 <td><div>{nickname}</div><div className="text-sm">{create_date}</div></td>
                 <td>
                     <div>
-                        {isAuthor? (
+                        {isAuthor || isAdmin ? (
                             <>
                                 <div>
                                     <a href={bridgeModifyModal} className="btn" onClick={getPrevComment}>수정</a>

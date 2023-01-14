@@ -42,7 +42,8 @@ function BoardModify({ userData }){
             subject : article.subject,
             content : article.content,
             user_id : userData.user,
-            category : categoryNum
+            category : categoryNum,
+            isAdmin : userData.isAdmin
         })
         let location = ""
         switch(response.data[0][0].id){

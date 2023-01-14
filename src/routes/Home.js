@@ -21,19 +21,48 @@ function Home(){
 
     return(
     <div>
-            <div className="w-full h-2/5">
-                <img className="w-full h-full" src="img/mainbanner4.png" alt="banner"/>
+        <div className="carousel w-full h-1/6">
+            <div id="slide1" className="carousel-item relative w-full">
+                <img src="img/mainbanner4.png" className="w-full" />
+                <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                <a href="#slide4" className="btn btn-circle btn-outline">❮</a> 
+                <a href="#slide2" className="btn btn-circle btn-outline">❯</a>
+                </div>
+            </div> 
+            <div id="slide2" className="carousel-item relative w-full">
+                <img src="img/mainbanner3.png" className="w-full" />
+                <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                <a href="#slide1" className="btn btn-circle btn-outline">❮</a> 
+                <a href="#slide3" className="btn btn-circle btn-outline">❯</a>
+                </div>
+            </div> 
+            <div id="slide3" className="carousel-item relative w-full">
+                <img src="img/mainbanner2.png" className="w-full" />
+                <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                <a href="#slide2" className="btn btn-circle btn-outline">❮</a> 
+                <a href="#slide4" className="btn btn-circle btn-outline">❯</a>
+                </div>
+            </div> 
+            <div id="slide4" className="carousel-item relative w-full">
+                <img src="img/mainbanner1.png" className="w-full" />
+                <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                <a href="#slide3" className="btn btn-circle btn-outline">❮</a> 
+                <a href="#slide1" className="btn btn-circle btn-outline">❯</a>
+                </div>
             </div>
+        </div>
         
         <div className="w-4/5 m-auto">
-            <div className="m-auto text-left font-bold text-4xl p-10"> 평가 </div>
-                <div className="flex flex-col w-full lg:flex-row justify-evenly">
-                    <div className="card card-compact w-1/5 h-1/5 bg-base-100 shadow-xl border">
-                        <figure><Link to="/rating/albums"><img src="img/albumrate.png" alt="newReleased" /></Link></figure>
-                    </div>
-                    <div className="card card-compact w-1/5 h-1/5 bg-base-100 shadow-xl">
-                        <figure><Link to="/rating/songs"><img src="img/musicrate.png" alt="musicRate" /></Link></figure>
-                    </div>
+            <div className="w-full h-1/3 bg-ratingBackground bg-center" >
+                <div className="m-auto text-left font-bold text-4xl p-10"> 평가 </div>
+                    <div className="flex flex-col w-full lg:flex-row justify-evenly">
+                        <div className="card card-compact w-1/5 h-1/5 bg-base-100">
+                            <figure><Link to="/rating/albums"><img src="img/rate1.png" alt="newReleased" /></Link></figure>
+                        </div>
+                        <div className="card card-compact w-1/5 h-1/5 bg-base-100">
+                            <figure><Link to="/rating/songs"><img src="img/rate2.png" alt="musicRate" /></Link></figure>
+                        </div>
+                </div>
             </div>
             <div className="m-auto text-left font-bold text-4xl p-10"> 오늘의 명반 </div>
             <div className="flex flex-col w-full lg:flex-row justify-evenly">

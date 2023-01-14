@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 
-function BoardComment({ boardComment, setComments, userData }){
+function BoardComment({ boardComment, userData, deleteComment, modifyComment }){
     
     const [modifyArticle, setModifyArticle] = useState("")
 
@@ -13,23 +13,12 @@ function BoardComment({ boardComment, setComments, userData }){
     const bridgeDeleteModal = `#delete${comment.comment_id}`;
     const bridgeDeleteModal2 = `delete${comment.comment_id}`;
 
-    const deleteComment = async() => {
-        const response = await axios.delete(`http://localhost:3001/board/comment/${comment.comment_id}`, {
-            data : {
-                board_id : comment.id
-            }
-        })
-        setComments(response.data[0])
+    const deleteBridge = () => {
+        deleteComment(comment.comment_id, comment.id)
     }
 
-    const modifyComment = async() => {
-        const response = await axios.put(`http://localhost:3001/board/comment/${comment.comment_id}`, {
-            content : modifyArticle,
-            user_id : userData.user,
-            board_id : comment.id
-        })
-        // console.log(response.data[0])
-        setComments(response.data[0])
+    const modifyBridge = () => {
+        modifyComment(modifyArticle, comment.comment_id, comment.id)
     }
 
     const getPrevComment = () => {
@@ -52,7 +41,7 @@ function BoardComment({ boardComment, setComments, userData }){
                 <p>댓글 내용 : {comment.comment_content}</p>
                 <p>댓글 작성자 : {comment.comment_name}</p>
                 <p>댓글 작성일자 : {comment.c_created_date}</p>
-                {boardComment.comment_user === userData.user ? (
+                {boardComment.comment_user === userData.user  || userData.isAdmin? (
                     <>
                     <div>
                         <a href={bridgeModifyModal} className="btn">수정</a>
@@ -73,7 +62,7 @@ function BoardComment({ boardComment, setComments, userData }){
                     <input type="text" placeholder="내용 입력" className="input w-full max-w-xs" onChange={onChange} value={modifyArticle}/>
                     <div className="modal-action">
                         <a href="#" className="btn btn-ghost" onClick={getPrevComment}>취소</a>
-                        <a href="#" className="btn" onClick={modifyComment}>수정</a>
+                        <a href="#" className="btn" onClick={modifyBridge}>수정</a>
                     </div>
                 </div>
             </div>
@@ -83,7 +72,7 @@ function BoardComment({ boardComment, setComments, userData }){
                     <p className="py-4">삭제한 코멘트는 되돌릴 수 없습니다.</p>
                     <div className="modal-action">
                         <a href="#" className="btn btn-ghost">취소</a>
-                        <a href="#" className="btn" onClick={deleteComment}>삭제</a>
+                        <a href="#" className="btn" onClick={deleteBridge}>삭제</a>
                     </div>
                 </div>
             </div>
