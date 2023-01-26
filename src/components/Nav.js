@@ -107,7 +107,7 @@ function Nav({ userData }){
     }, [join.nickname])
 
     const createUser = async() => {
-        await axios.post('http://localhost:3001/user', {
+        await axios.post('http://43.201.140.172:3001/user', {
             id : join.id,
             nickname : join.nickname,
             password : join.password
@@ -125,7 +125,7 @@ function Nav({ userData }){
 
     // 아이디, 닉네임 중복 확인 함수
     const checkSameId = async() => {
-        const response = await axios.get("http://localhost:3001/sameid", {
+        const response = await axios.get("http://43.201.140.172:3001/sameid", {
             params: {
                 id : join.id
             }
@@ -146,7 +146,7 @@ function Nav({ userData }){
     }
 
     const checkSameNickname = async() => {
-        const response = await axios.get("http://localhost:3001/samenickname", {
+        const response = await axios.get("http://43.201.140.172:3001/samenickname", {
             params: {
                 nickname : join.nickname
             }
@@ -169,7 +169,7 @@ function Nav({ userData }){
 
 
     const getLogin = async() => {
-        await axios.post('http://localhost:3001/login', {
+        await axios.post('http://43.201.140.172:3001/login', {
             id : login.id,
             password : login.password
         })
@@ -180,7 +180,7 @@ function Nav({ userData }){
     }
 
     const logOut = () => {
-        axios.get("http://localhost:3001/logout")
+        axios.get("http://43.201.140.172:3001/logout")
     }
 
 
@@ -223,7 +223,7 @@ function Nav({ userData }){
                 { isAuth ? (
                     <>
                 <div> 환영합니다 ! {userName} 님 ! </div>
-                <label className="btn btn-outline" onClick={logOut}> 로그아웃 </label>
+                <label className="btn btn-outline" vonClick={logOut}> 로그아웃 </label>
                     </>
                 )
                 : (

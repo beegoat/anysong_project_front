@@ -26,7 +26,7 @@ function BoardWrite({ userData }){
 
 
     const createArticle = async () => {
-        const response = await axios.post("http://localhost:3001/board", {
+        const response = await axios.post("http://43.201.140.172:3001/board", {
             subject : article.subject,
             content : article.content,
             user_id : userData.user,

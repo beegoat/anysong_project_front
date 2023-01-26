@@ -5,7 +5,7 @@ function Login() {
     const [userData, setuserData] = useState("");
 
     useEffect(() => {
-        axios.post("http://localhost:3001/jwtauthcheck")
+        axios.post("http://43.201.140.172:3001/jwtauthcheck")
         .then((res) => {
             setuserData(res.data);
         })

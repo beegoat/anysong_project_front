@@ -18,7 +18,7 @@ function Join(){
     }
 
     const createUser = async() => {
-        const response = await axios.post('http://localhost:3001/user', {
+        const response = await axios.post('http://43.201.140.172:3001/user', {
             id : join.id,
             nickname : join.nickname,
             password : join.password

@@ -38,7 +38,7 @@ function Mypage( {userData} ){
     }
 
     const checkNickname = async() =>{
-        const response = await axios.get('http://localhost:3001/samenickname', {
+        const response = await axios.get('http://43.201.140.172:3001/samenickname', {
             params : {
                 nickname : modifyInfo.nickname
             }
@@ -58,13 +58,13 @@ function Mypage( {userData} ){
     }
 
     const modifyNickname = async() => {
-        const response = await axios.put('http://localhost:3001/mynickname', {
+        const response = await axios.put('http://43.201.140.172:3001/mynickname', {
             nickname : modifyInfo.nickname
         })
     }
 
     const modifyIntroduction = async() => {
-        const response = await axios.put('http://localhost:3001/myintroduction', {
+        const response = await axios.put('http://43.201.140.172:3001/myintroduction', {
             introduction : modifyInfo.introduction
         })
     }
@@ -72,7 +72,7 @@ function Mypage( {userData} ){
     const checkPw = async() => {
         console.log("클릭")
 
-        const response = await axios.post('http://localhost:3001/comparepw', {
+        const response = await axios.post('http://43.201.140.172:3001/comparepw', {
             password : modifyInfo.password
         })
 
@@ -109,31 +109,31 @@ function Mypage( {userData} ){
     }, [modifyInfo.newPassword])
 
     const modifyPw = async() => {
-        const response = await axios.put("http://localhost:3001/mypassword", {
+        const response = await axios.put("http://43.201.140.172:3001/mypassword", {
             password : modifyInfo.newPassword
         })
     }
 
     const withDraw = async() => {
-        const response = await axios.put('http://localhost:3001/withdraw', {})
+        const response = await axios.put('http://43.201.140.172:3001/withdraw', {})
         console.log(response)
     }
 
     // 내 정보 불러오기
     const getMySong = async() => {
-        const response = await axios.get('http://localhost:3001/mysonginfo', {})
+        const response = await axios.get('http://43.201.140.172:3001/mysonginfo', {})
         if(response.data[0].length === 0){return} 
         setMySong(response.data[0])
     }
 
     const getMyAlbum = async() => {
-        const response = await axios.get('http://localhost:3001/myalbuminfo', {})
+        const response = await axios.get('http://43.201.140.172:3001/myalbuminfo', {})
         if(response.data[0].length === 0){return} 
         setMyAlbum(response.data[0])
     }
 
     const getMyArticle = async() => {
-        const response = await axios.get('http://localhost:3001/myarticleinfo', {})
+        const response = await axios.get('http://43.201.140.172:3001/myarticleinfo', {})
         if(response.data[0].length === 0){return} 
         setMyArticle(response.data[0])
     }

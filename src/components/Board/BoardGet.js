@@ -12,7 +12,7 @@ function BoardGet( { boardName, userData }){
     const offset = (page - 1) * limit
 
     const getArticles = async() => {
-        const response = await axios.get(`http://localhost:3001/board/${boardName}`)
+        const response = await axios.get(`http://43.201.140.172:3001/board/${boardName}`)
         setArticles(response.data)
     }
 

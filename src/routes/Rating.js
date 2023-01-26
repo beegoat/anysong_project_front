@@ -15,10 +15,10 @@ function Rating({ setDrawerInfo }){
 
     const getMusicInfo = async () => {
         const getSongs = await axios.get(
-            'http://localhost:3001/songs', {});
+            'http://43.201.140.172:3001/songs', {});
         setSongs(getSongs.data)
         const getAlbums = await axios.get(
-            'http://localhost:3001/albums', {});
+            'http://43.201.140.172:3001/albums', {});
         setAlbums(getAlbums.data)
     }
 
