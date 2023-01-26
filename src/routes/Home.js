@@ -10,6 +10,7 @@ function Home(){
 
     const getTopRate = async() => {
         const response = await axios.get('http://43.201.140.172:3001/getTopRate')
+        console.log(response)
         setTopRating(response.data)
     }
 
