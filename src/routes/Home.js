@@ -9,12 +9,12 @@ function Home(){
     const [mainNotice, setMainNotice] = useState([])
 
     const getTopRate = async() => {
-        const response = await axios.get('http://localhost:3001/getTopRate')
+        const response = await axios.get('http://43.201.140.172/getTopRate')
         setTopRating(response.data)
     }
 
     const getNotice = async() => {
-        const response = await axios.get('http://localhost:3001/getnotice')
+        const response = await axios.get('43.201.140.172/getnotice')
         setMainNotice(response.data[0])
     }
 
