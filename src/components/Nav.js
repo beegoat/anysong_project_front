@@ -228,8 +228,8 @@ function Nav({ userData }){
                 )
                 : (
                     <>                    
-                    <label htmlFor="login-modal" className="btn btn-outline mx-1">로그인</label>
-                    <label htmlFor="join-modal" className="btn mx-1">회원가입</label>
+                    <label htmlFor="login-modal" className="btn btn-outline mx-1">login</label>
+                    <label htmlFor="join-modal" className="btn mx-1">join</label>
                     </>
                 ) }
                 </div>
