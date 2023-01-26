@@ -11,6 +11,8 @@ import Board from "./routes/Board";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import RateDetail from "./components/StarRating/RateDetail";
+import Mypage from "./components/Mypage";
+import SearchInfo from "./components/SearchInfo"
 
 
 function App() {
@@ -50,13 +52,24 @@ function App() {
                                 <Route path="/rating/*" element={
                                 <Rating 
                                     setDrawerInfo={setDrawerInfo} />
-                                } />
+                                }/>
                             </Routes>
                             <Routes>
                                 <Route path="/board/*" element={
                                 <Board 
                                     userData={userData}/>
-                                } />
+                                }/>
+                            </Routes>
+                            <Routes>
+                                <Route path="/mypage" element={
+                                <Mypage
+                                    userData={userData}/>
+                                }/>
+                            </Routes>
+                            <Routes>
+                                <Route path="/searchinfo/:artist/:song" element={
+                                    <SearchInfo />
+                                }/>
                             </Routes>
                         <Footer />
                     </div> 

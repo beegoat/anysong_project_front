@@ -88,6 +88,9 @@ function BoardDetails({ userData }) {
             case 'question' : 
                 navigate('/board/question')
                 break
+            case 'notice' :
+                navigate('/board/notice')
+                break
             default :
                 navigate('/board')
             }

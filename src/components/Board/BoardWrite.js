@@ -32,7 +32,26 @@ function BoardWrite({ userData }){
             user_id : userData.user,
             category : categoryNum
         })
-        navigate(`/board/${response.data[0][0].id}/total`);
+        // navigate(`/board/${response.data[0][0].id}/total`);
+        switch(categoryNum) {
+            case 1 : 
+                navigate(`/board/${response.data[0][0].id}/songreview`)
+                break
+            case 2 : 
+                navigate(`/board/${response.data[0][0].id}/albumreview`)
+                break
+            case 3 : 
+                navigate(`/board/${response.data[0][0].id}/talk`)
+                break
+            case 4 : 
+                navigate(`/board/${response.data[0][0].id}/question`)
+                break
+            case 5 :
+                navigate(`/board/${response.data[0][0].id}/notice`)
+                break
+            default :
+                navigate('/board')
+            }
     }
 
     const confirmCategory = () => {
@@ -53,7 +72,11 @@ function BoardWrite({ userData }){
                 required
                 >
                     {userData.isAdmin ?(
-                        <option value="5">공지사항</option>):(
+                        <>
+                        <option value="">카테고리 선택</option>
+                        <option value="5">공지사항</option>
+                        </>
+                        ):(
                         <>
                             <option value="">카테고리 선택</option>
                             <option value="1">음악리뷰</option>

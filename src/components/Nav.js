@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+import SearchMusic from "./SearchMusic";
+
 axios.defaults.withCredentials = true;
 
 function Nav({ userData }){
@@ -20,7 +22,6 @@ function Nav({ userData }){
     useEffect(() => {
         setIsAuth(userData.isAuth)
         setUserName(userData.nickname)
-        console.log()
     }, [userData])
 
 
@@ -129,17 +130,13 @@ function Nav({ userData }){
                 id : join.id
             }
         })
-        if(response.data.length){
+        if(response.data.code === 400){
             setConfirmJoin({
                 ...confirmJoin,
-                idcheck : false
-            })
-            setConfirmJoin({
-                ...confirmJoin,
+                idcheck: false,
                 idcheckmsg : "중복된 아이디가 있습니다!"
             })
-            
-        } else {
+        } else if(response.data.code === 200) {
             setConfirmJoin({
                 ...confirmJoin,
                 idcheck : true,
@@ -154,20 +151,19 @@ function Nav({ userData }){
                 nickname : join.nickname
             }
         })
-        if(response.data.length){
+        if(response.data.code === 400 ){
             setConfirmJoin({
                 ...confirmJoin,
                 nicknamecheck : false,
                 nicknamecheckmsg : "중복된 닉네임이 있습니다!"
             })
             
-        } else {
+        } else if (response.data.code === 200) {
             setConfirmJoin({
                 ...confirmJoin,
                 nicknamecheck : true,
                 nicknamecheckmsg : "사용 가능합니다!"
             })
-
         }
     }
 
@@ -220,8 +216,8 @@ function Nav({ userData }){
                     </div>
                     </div>
                 </div>
-                <div id="search_bar" className="form-control mr-11">
-                    <input type="text" placeholder="검색해보세요!" className="input input-ghost w-full max-w-xs hidden" />
+                <div>
+                    <SearchMusic />
                 </div>
                 <div className="flex-none">
                 { isAuth ? (
@@ -302,7 +298,7 @@ function Nav({ userData }){
                     {confirmJoin.nickname? 
                         (<label className="btn w-25 h-10" onClick={checkSameNickname}>중복확인</label>): 
                         (<label className="btn btn-outline btn-disabled w-25 h-10">중복확인</label>)}
-                    {confirmJoin.nicknamecheckmsg !== "" ? 
+                    {confirmJoin.nicknamecheckmsg !== "" && confirmJoin.nicknamecheck ? 
                         (<p>{confirmJoin.nicknamecheckmsg}</p>):
                         (<p>{confirmJoin.nicknamecheckmsg}</p>)}
                     </div>
