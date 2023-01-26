@@ -15,7 +15,7 @@ function Home(){
     }
 
     const getNotice = async() => {
-        const response = await axios.get('43.201.140.172:3001/getnotice')
+        const response = await axios.get('http://localhost:3001/getnotice')
         setMainNotice(response.data[0])
     }
 
