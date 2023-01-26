@@ -205,7 +205,7 @@ function Nav({ userData }){
                         </ul>
                     </div>
                     <div className="dropdown">
-                        <label tabIndex={0} className="btn btn-ghost m-1 text-lg">게시판</label>
+                        <label tabIndex={0} className="btn btn-ghost m-1 text-lg">게시판ㅇㅅㅇ</label>
                         <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                             <li><a href="/board">전체</a></li>
                             <li><a href="/board/songreview">음악리뷰</a></li>
