@@ -12,7 +12,7 @@ function BoardGet( { boardName, userData }){
     const offset = (page - 1) * limit
 
     const getArticles = async() => {
-        const response = await axios.get(`http://43.201.140.172:3001/board/${boardName}`)
+        const response = await axios.get(`http://localhost:3001/board/${boardName}`)
         setArticles(response.data)
     }
 
@@ -35,13 +35,13 @@ function BoardGet( { boardName, userData }){
                     {boardName === "notice" ? (
                         <>
                             {userData.isAdmin ? 
-                            <button className="btn"><a href="http://43.201.140.172/board/write">글쓰기</a></button>:
+                            <button className="btn"><a href="http://localhost:3000/board/write">글쓰기</a></button>:
                             null}
                         </>
                         ):(
                         <>
                             {userData.isAuth? (
-                            <button className="btn"><a href="http://43.201.140.172/board/write">글쓰기</a></button>
+                            <button className="btn"><a href="http://localhost:3000/board/write">글쓰기</a></button>
                             ) : null}
                         </>
                     )}
