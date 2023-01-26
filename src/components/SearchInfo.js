@@ -9,7 +9,7 @@ function SearchInfo(){
     const [musicInfo, setMusicInfo] = useState([])
 
     const getMusicInfo = async() => {
-        const response = await axios.get('http://localhost:3001/searchinfo', {
+        const response = await axios.get('http://43.201.140.172:3001/searchinfo', {
             params : {
                 artist : artist,
                 song : song

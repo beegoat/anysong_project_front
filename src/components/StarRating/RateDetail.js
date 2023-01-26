@@ -15,7 +15,7 @@ function RateDetail({ detailInfo, userData }){
 
     // id로 해당 앨범에 달린 댓글 조회 & detailInfo 변경 감지해서 해당 코멘트 조회하도록 useEffect
     const getComment = async (id) => {
-        const response = await axios.get(`http://localhost:3001/comment/${id}`,{
+        const response = await axios.get(`http://43.201.140.172:3001/comment/${id}`,{
             params : {
             isSong : detailInfo.isSong,
             isAlbum : detailInfo.isAlbum
@@ -39,7 +39,7 @@ function RateDetail({ detailInfo, userData }){
 
     // 댓글 작성, response 값으로 album_id로 조회한 쿼리 값 불러와서 setComment에 재배치해주면서 리렌더링해주고 있음.
     const postArticle = async (id, content) => {
-        const response = await axios.post("http://localhost:3001/comment", {
+        const response = await axios.post("http://43.201.140.172:3001/comment", {
             content: content,
             user_id: userInfo.user,
             id: id,
@@ -60,7 +60,7 @@ function RateDetail({ detailInfo, userData }){
 
     // 댓글 삭제, response 값 받아와서 갱신해줌
     const deleteArticle = async (commentid, album_id) => {
-        const response = await axios.delete(`http://localhost:3001/comment/${commentid}`, {
+        const response = await axios.delete(`http://43.201.140.172:3001/comment/${commentid}`, {
             data: {
                 id : detailInfo.id,
                 isSong : detailInfo.isSong,
@@ -73,7 +73,7 @@ function RateDetail({ detailInfo, userData }){
 
     // 댓글 수정, response 값 받아와서 갱신
     const putArticle = async(commentid, id, article) => {
-        const response = await axios.put(`http://localhost:3001/comment/${commentid}`, {
+        const response = await axios.put(`http://43.201.140.172:3001/comment/${commentid}`, {
             data: {
                 id: id,
                 content: article,
@@ -87,7 +87,7 @@ function RateDetail({ detailInfo, userData }){
 
     // 별점 평가 조회(album) 
     const getScore = async( ) => {
-        const response = await axios.get(`http://localhost:3001/rating`, {
+        const response = await axios.get(`http://43.201.140.172:3001/rating`, {
             params : {
                 user_id: userInfo.user,
                 id: detailInfo.id,
@@ -106,7 +106,7 @@ function RateDetail({ detailInfo, userData }){
     const getStarFromComp = async (starRate) => {
         if(starRate !== "0"){
             if(star !== starRate ){
-                const response = await axios.post(`http://localhost:3001/rating`, {
+                const response = await axios.post(`http://43.201.140.172:3001/rating`, {
                     data : {
                         rate : starRate,
                         id : detailInfo.id,
@@ -116,7 +116,7 @@ function RateDetail({ detailInfo, userData }){
                     }})
                 setStar(response.data[0].rate);}
             } else {
-                await axios.delete(`http://localhost:3001/rating`, {
+                await axios.delete(`http://43.201.140.172:3001/rating`, {
                     data: {
                         user_id: userInfo.user,
                         id : detailInfo.id,

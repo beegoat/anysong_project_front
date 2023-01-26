@@ -15,7 +15,7 @@ function BoardDetails({ userData }) {
     // 글 정보와 글에 달린 댓글 정보 불러오는 함수. useEffect로 맨 처음 한 번 불러온다
     const getArticle = async() => {
         const id = params.id
-        const response = await axios.get(`http://localhost:3001/board/${id}`, {})
+        const response = await axios.get(`http://43.201.140.172:3001/board/${id}`, {})
         setArticle(response.data[0])
         setComments(response.data)
     }
@@ -31,7 +31,7 @@ function BoardDetails({ userData }) {
     // 글 삭제 함수, 삭제 후 navigate로 경로 이동
     const deleteArticle = async() => {
         const id = params.id
-        const response = await axios.delete(`http://localhost:3001/board/${id}`, {
+        const response = await axios.delete(`http://43.201.140.172:3001/board/${id}`, {
             data: {user_id : article.user_id}
         })
         if(response.status === 200 ){
@@ -103,7 +103,7 @@ function BoardDetails({ userData }) {
 
     // 댓글 C, U, D 함수
     const createComment = async() => {
-        const response = await axios.post(`http://localhost:3001/board/comment/${params.id}`, {
+        const response = await axios.post(`http://43.201.140.172:3001/board/comment/${params.id}`, {
             content : commentArticle,
             user_id : userData.user
         })
@@ -114,7 +114,7 @@ function BoardDetails({ userData }) {
     }
 
     const deleteComment = async(comment_id, id) => {
-        const response = await axios.delete(`http://localhost:3001/board/comment/${comment_id}`, {
+        const response = await axios.delete(`http://43.201.140.172:3001/board/comment/${comment_id}`, {
             data : {
                 board_id : id,
                 isAdmin : userData.isAdmin
@@ -125,7 +125,7 @@ function BoardDetails({ userData }) {
     }
 
     const modifyComment = async(modifyArticle, comment_id, board_id) => {
-        const response = await axios.put(`http://localhost:3001/board/comment/${comment_id}`, {
+        const response = await axios.put(`http://43.201.140.172:3001/board/comment/${comment_id}`, {
             content : modifyArticle,
             user_id : userData.user,
             board_id : board_id,

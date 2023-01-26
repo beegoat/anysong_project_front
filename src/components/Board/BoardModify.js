@@ -15,7 +15,7 @@ function BoardModify({ userData }){
     })
 
     const getArticleFromId = async () => {
-        const response = await axios.get(`http://localhost:3001/board/${params.id}`)
+        const response = await axios.get(`http://43.201.140.172:3001/board/${params.id}`)
         setArticle({
             subject : response.data[0].subject,
             content : response.data[0].content
@@ -38,7 +38,7 @@ function BoardModify({ userData }){
     }, [])
 
     const updateArticle = async () => {
-        const response = await axios.put(`http://localhost:3001/board/${params.id}`, {
+        const response = await axios.put(`http://43.201.140.172:3001/board/${params.id}`, {
             subject : article.subject,
             content : article.content,
             user_id : userData.user,

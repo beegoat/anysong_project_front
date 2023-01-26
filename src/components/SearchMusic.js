@@ -16,7 +16,7 @@ function SearchMusic(){
     }
 
     const getMusicByWord = async() => {
-        const response = await axios.get('http://localhost:3001/musicsearch', {
+        const response = await axios.get('http://43.201.140.172:3001/musicsearch', {
             params : {
                 searchWord : searchWord
             }
