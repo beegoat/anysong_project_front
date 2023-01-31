@@ -172,6 +172,7 @@ function Nav({ userData, setUserData,  API_URI }){
 
 
     const getLogin = async() => {
+        try{
         const response = await axios.post(`http://${API_URI}:3001/login`, {
             id : login.id,
             password : login.password
@@ -185,7 +186,9 @@ function Nav({ userData, setUserData,  API_URI }){
         setLogin({
             id : "",
             password : "" 
-        })
+        })} catch(e) {
+            console.error(e)
+        }
     }
 
     const logOut = async() => {
