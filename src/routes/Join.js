@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-function Join(){
+function Join({ API_URI }){
     const [join, setJoin] = useState({
         id : "",
         nickname : "",
@@ -18,7 +18,7 @@ function Join(){
     }
 
     const createUser = async() => {
-        const response = await axios.post('http://43.201.140.172:3001/user', {
+        const response = await axios.post(`http://${API_URI}:3001/user`, {
             id : join.id,
             nickname : join.nickname,
             password : join.password

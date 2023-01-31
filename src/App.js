@@ -17,10 +17,14 @@ import SearchInfo from "./components/SearchInfo"
 
 function App() {
 
+    // const API_URI = 'localhost'
+    const API_URI = '43.201.140.172'
+
+
     const [userData, setUserData] = useState("");
 
     useEffect(() => {
-        axios.post("http://43.201.140.172:3001/jwtauthcheck")
+        axios.post(`http://${API_URI}:3001/jwtauthcheck`)
         .then((res) => {
             setUserData(res.data);
         })
@@ -36,7 +40,7 @@ function App() {
 
     return (
         
-        <div>
+        <div className="w-full h-full">
             <div>
                 <div className="drawer drawer-end -z-10">
                     <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -44,31 +48,41 @@ function App() {
             {/* <!-- Page content here --> */}
                     <Nav 
                         userData={userData}
+                        setUserData={setUserData}
+                        API_URI={API_URI}
                         />
                             <Routes>
-                                <Route path="/" element={<Home />}/>
+                                <Route path="/" element={
+                                <Home 
+                                API_URI={API_URI}/>
+                                }/>
                             </Routes>
                             <Routes>
                                 <Route path="/rating/*" element={
                                 <Rating 
-                                    setDrawerInfo={setDrawerInfo} />
+                                    setDrawerInfo={setDrawerInfo}
+                                    API_URI={API_URI} />
                                 }/>
                             </Routes>
                             <Routes>
                                 <Route path="/board/*" element={
                                 <Board 
-                                    userData={userData}/>
+                                    userData={userData}
+                                    API_URI={API_URI} />
                                 }/>
                             </Routes>
                             <Routes>
                                 <Route path="/mypage" element={
                                 <Mypage
-                                    userData={userData}/>
+                                    userData={userData}
+                                    setUserData={setUserData}
+                                    API_URI={API_URI} />
                                 }/>
                             </Routes>
                             <Routes>
                                 <Route path="/searchinfo/:artist/:song" element={
-                                    <SearchInfo />
+                                    <SearchInfo 
+                                    API_URI={API_URI} />
                                 }/>
                             </Routes>
                         <Footer />
@@ -81,6 +95,7 @@ function App() {
                                 <RateDetail
                                     detailInfo={detailInfo}
                                     userData={userData}
+                                    API_URI={API_URI}
                                 />
                             }
                         </ul>

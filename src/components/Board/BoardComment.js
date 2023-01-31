@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 
 
-function BoardComment({ boardComment, userData, deleteComment, modifyComment }){
+function BoardComment({ boardComment, userData, deleteComment, modifyComment, API_URI }){
     
     const [modifyArticle, setModifyArticle] = useState("")
 
@@ -35,26 +34,40 @@ function BoardComment({ boardComment, userData, deleteComment, modifyComment }){
  
 
     return(
-        <div>
+        <div className="my-3 border-b-1">
             { boardComment.comment_content? (
                 <>
-                <p>댓글 내용 : {comment.comment_content}</p>
-                <p>댓글 작성자 : {comment.comment_name}</p>
-                <p>댓글 작성일자 : {comment.c_created_date}</p>
+                <div className="flex flex-col">
+                <div className="p-2 pl-8">{comment.comment_content}</div>
+                
                 {boardComment.comment_user === userData.user  || userData.isAdmin? (
                     <>
-                    <div>
-                        <a href={bridgeModifyModal} className="btn">수정</a>
-                    </div>
-                    <div>
-                        <a href={bridgeDeleteModal}className="btn">삭제</a>
+                    <div className="flex justify-end">
+                        <a href={bridgeModifyModal} className=" mr-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                            </svg>
+                        </a>
+
+                        <a href={bridgeDeleteModal}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </a>                        
                     </div>
                 </>
 
                 ) : null }
 
+                    <div className="flex justify-end">
+                        <div className="mr-5 text">{comment.comment_name}</div>
+                        <div className="text-base">{comment.c_created_date}</div>
+                    </div>
+                </div>
                 </>
-            ) : null }
+            ) : <p className="text-center">댓글이 없습니다. 첫 댓글을 남겨보세요 ! ❣°ʚ(❛ั ᴗ ❛ั)ɞ°❣ </p>  }
+
+
         
                 <div className="modal" id={bridgeModifyModal2}>
                 <div className="modal-box">
@@ -76,7 +89,7 @@ function BoardComment({ boardComment, userData, deleteComment, modifyComment }){
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
     )
 }
 

@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import SongsGet from "../components/SongsGet";
 import RatingCarousel from "../components/RatingCarousel";
 
-function Rating({ setDrawerInfo }){
+function Rating({ setDrawerInfo, API_URI }){
     const [songs, setSongs] = useState([]);
     const [albums, setAlbums] = useState([]);
 
@@ -15,10 +15,10 @@ function Rating({ setDrawerInfo }){
 
     const getMusicInfo = async () => {
         const getSongs = await axios.get(
-            'http://43.201.140.172:3001/songs', {});
+            `http://${API_URI}:3001/songs`, {});
         setSongs(getSongs.data)
         const getAlbums = await axios.get(
-            'http://43.201.140.172:3001/albums', {});
+            `http://${API_URI}:3001/albums`, {});
         setAlbums(getAlbums.data)
     }
 
@@ -29,32 +29,35 @@ function Rating({ setDrawerInfo }){
     return(
         <Routes>
             <Route path="/songs" element={
-                <div className="flex">
-                <RatingCarousel 
-                    total={songs.length}
-                    limit={limit}
-                    page={page}
-                    setPage={setPage}
-                >
-                <div className="flex flex-wrap justify-center">
-                    {songs.slice(offset, offset + limit).map(
-                        (song) => (
-                            <SongsGet
-                                key={song.index}
-                                id={song.id}
-                                img_url={song.image_url}
-                                title={song.title}
-                                artist={song.artist}
-                                setDrawerInfo={setDrawerInfo}
-                                isSong={true}
-                                isAlbum={false}
-                        />)
-                    )}
-                </div>
-                </RatingCarousel>
+                <div className="w-full mt-148">
+                    <div className="flex">
+                    <RatingCarousel 
+                        total={songs.length}
+                        limit={limit}
+                        page={page}
+                        setPage={setPage}
+                    >
+                    <div className="flex flex-wrap justify-center">
+                        {songs.slice(offset, offset + limit).map(
+                            (song) => (
+                                <SongsGet
+                                    key={song.index}
+                                    id={song.id}
+                                    img_url={song.image_url}
+                                    title={song.title}
+                                    artist={song.artist}
+                                    setDrawerInfo={setDrawerInfo}
+                                    isSong={true}
+                                    isAlbum={false}
+                            />)
+                        )}
+                    </div>
+                    </RatingCarousel>
+                    </div>
                 </div>
             }/>
             <Route path="/albums" element={
+                <div className="w-full mt-148">
                 <div className="flex">
                 <RatingCarousel 
                     total={albums.length}
@@ -77,6 +80,7 @@ function Rating({ setDrawerInfo }){
                     )}
                 </div>
                 </RatingCarousel>
+            </div>
             </div>
             }/>
         </Routes>

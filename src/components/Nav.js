@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 import SearchMusic from "./SearchMusic";
 
+
 axios.defaults.withCredentials = true;
 
-function Nav({ userData }){
+function Nav({ userData, setUserData,  API_URI }){
 
     const [isAuth, setIsAuth] = useState("");
+    const [isLogin, setIsLogin] = useState(false);
     const [userName, setUserName] = useState("");
     const [confirmJoin, setConfirmJoin] = useState({
         id : false,
@@ -107,7 +110,7 @@ function Nav({ userData }){
     }, [join.nickname])
 
     const createUser = async() => {
-        await axios.post('http://43.201.140.172:3001/user', {
+        await axios.post(`http://${API_URI}:3001/user`, {
             id : join.id,
             nickname : join.nickname,
             password : join.password
@@ -125,7 +128,7 @@ function Nav({ userData }){
 
     // 아이디, 닉네임 중복 확인 함수
     const checkSameId = async() => {
-        const response = await axios.get("http://43.201.140.172:3001/sameid", {
+        const response = await axios.get(`http://${API_URI}:3001/sameid`, {
             params: {
                 id : join.id
             }
@@ -146,7 +149,7 @@ function Nav({ userData }){
     }
 
     const checkSameNickname = async() => {
-        const response = await axios.get("http://43.201.140.172:3001/samenickname", {
+        const response = await axios.get(`http://${API_URI}:3001/samenickname`, {
             params: {
                 nickname : join.nickname
             }
@@ -169,18 +172,34 @@ function Nav({ userData }){
 
 
     const getLogin = async() => {
-        await axios.post('http://43.201.140.172:3001/login', {
+        const response = await axios.post(`http://${API_URI}:3001/login`, {
             id : login.id,
             password : login.password
         })
+        if(response.data === "success") {
+            await axios.post(`http://${API_URI}:3001/jwtauthcheck`)
+            .then((res) => {
+                setUserData(res.data);
+            })
+        }
         setLogin({
             id : "",
             password : "" 
         })
     }
 
-    const logOut = () => {
-        axios.get("http://43.201.140.172:3001/logout")
+    const logOut = async() => {
+        const response = axios.get(`http://${API_URI}:3001/logout`)
+        setIsAuth(false);
+        home();
+    }
+    
+    const myPage = () => {
+        window.location.href= "/mypage"
+    }
+
+    const home = () => {
+        window.location.href="/"
     }
 
 
@@ -189,51 +208,74 @@ function Nav({ userData }){
 
     return(
         // Nav Start 
-        <div className=" w-full h-18 bg-white">
-            <div className="navbar bg-white">
-                <div className="flex-1">
+        <div class="relative">
+        <div class="fixed top-0 left-0 right-0 z-10">
+            <div className="w-full bg-white">
+            <div className=" w-1464 h-120 m-auto bg-white ">
+            
+            <div className="navbar justify-between">
+                <div className="w-1/6">
                     <a href="/" className="btn btn-ghost normal-case text-4xl">
-                        <img src="img/movinglogo.gif" className="w-full h-full"/>
+                        <img src={'/img/logowhite.png'} alt="로고" className="w-full h-full"/>
                     </a>
-                    <div className="flex items-center justify-center w-full">
-                    <label className="btn btn-ghost m-1 text-lg"> <a href="/board/notice"> 공지사항</a> </label>
-                    <div className="dropdown">
-                        <label tabIndex={0} className="btn btn-ghost m-1 text-lg">평가</label>
-                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                            <li><a href="/rating/albums">음악 앨범</a></li>
-                            <li><a href="/rating/songs">음악 음원</a></li>
-                        </ul>
-                    </div>
-                    <div className="dropdown">
-                        <label tabIndex={0} className="btn btn-ghost m-1 text-lg">게시판ㅇㅅㅇ</label>
-                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                            <li><a href="/board">전체</a></li>
-                            <li><a href="/board/songreview">음악리뷰</a></li>
-                            <li><a href="/board/albumreview">앨범리뷰</a></li>
-                            <li><a href="/board/talk">잡담/기타</a></li>
-                            <li><a href="/board/question">질문</a></li>
-                        </ul>
-                    </div>
-                    </div>
                 </div>
-                <div>
-                    <SearchMusic />
+
+                <div className="4/6">
+                    <label className="btn btn-ghost m-1 text-lg"> <a href="/board/notice">공지사항</a></label>
+                        <div className="dropdown dropdown-hover">
+                                <label tabIndex={0} className="btn btn-ghost m-1 text-lg">평가</label>
+                                <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                    <li><a href="/rating/albums">음악 앨범</a></li>
+                                    <li><a href="/rating/songs">음악 음원</a></li>
+                                </ul>
+                        </div>
+                        <div className="dropdown dropdown-hover">
+                            <label tabIndex={0} className="btn btn-ghost m-1 text-lg">커뮤니티</label>
+                            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 text-center">
+                                <li><a href="/board">전체</a></li>
+                                <li><a href="/board/songreview">음악리뷰</a></li>
+                                <li><a href="/board/albumreview">앨범리뷰</a></li>
+                                <li><a href="/board/talk">잡담/기타</a></li>
+                                <li><a href="/board/question">질문</a></li>
+                            </ul>
+                        </div>
                 </div>
-                <div className="flex-none">
-                { isAuth ? (
-                    <>
-                <div> 환영합니다 ! {userName} 님 ! </div>
-                <label className="btn btn-outline" vonClick={logOut}> 로그아웃 </label>
-                    </>
-                )
-                : (
-                    <>                    
-                    <label htmlFor="login-modal" className="btn btn-outline mx-1">login</label>
-                    <label htmlFor="join-modal" className="btn mx-1">join</label>
-                    </>
-                ) }
+
+                <div className="w-1/6 flex justify-end items-center">
+                        { isAuth ? (
+                            <div className="text-right">
+                                <div className="font-bold text-center text-base mt-2">안녕하세요, {userName}님!</div>
+                                    <label className="text-sm cursor-pointer mx-3 -my-4 underline " onClick={myPage} > 마이페이지 </label>
+                                    <label className="text-sm cursor-pointer mx-3 -my-4 border border-red-400" onClick={logOut}> 로그아웃 </label>
+                            </div>
+                        )
+                        : (
+                            <>                    
+                                <label htmlFor="login-modal" className="btn btn-outline mx-1">로그인</label>
+                                <label htmlFor="join-modal" className="btn mx-1">회원가입</label>
+                            </>
+                        ) }
                 </div>
             </div>
+            {(`http://${API_URI}:3000/` === window.location.href) ? 
+            <div className="flex">
+                <div className="w-1/3 h-11"></div>
+                
+
+                <div className="w-1/3 h-11 mx-420 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+                    <SearchMusic 
+                    API_URI={API_URI}/>
+                </div>
+                <div className="w-1/3 h-11"></div>
+            </div> : null } 
+            </div>
+            </div>
+            </div>
+
+        
             {/* 로그인 모달 */}
         <form>
         <input type="checkbox" id="login-modal" className="modal-toggle" />
@@ -276,72 +318,101 @@ function Nav({ userData }){
                         nicknamecheck: false,
                         nicknamecheckmsg: ""})
                     }}>✕</label>
-                <h3 className="font-bold text-3xl text-center m-8"> 🎉 회원가입 🥳</h3>
+                <h3 className="font-bold text-3xl text-center my-2">회원가입</h3>
                 <div className="form-control w-full">
                     <div>
-                    <label className="label">
-                        <span className="label-text m-auto p-3">ID로 사용할 이메일을 입력해주세요.</span>
-                    </label>
-                    <input type="email" placeholder="ID" className="input input-bordered w-full max-w-xs m-auto" onChange={onChange} value={join.id} name="id" />
-                    {confirmJoin.id? 
-                        (<label className="btn w-25 h-10" onClick={checkSameId}>중복확인</label>): 
-                        (<label className="btn btn-outline btn-disabled w-25 h-10">중복확인</label>)}
-                    {confirmJoin.idcheckmsg !== "" ? 
-                        (<p>{confirmJoin.idcheckmsg}</p>):
-                        (<p>{confirmJoin.idcheckmsg}</p>)}
-                    </div>
-                    <div>
-                    <label className="label">
-                        <span className="label-text m-auto p-3">사용하실 닉네임을 입력해주세요.</span>
-                    </label>
-                    <input type="text" placeholder="닉네임" className="input input-bordered w-full max-w-xs m-auto" onChange={onChange} value={join.nickname} name="nickname"/>
-                    {confirmJoin.nickname? 
-                        (<label className="btn w-25 h-10" onClick={checkSameNickname}>중복확인</label>): 
-                        (<label className="btn btn-outline btn-disabled w-25 h-10">중복확인</label>)}
-                    {confirmJoin.nicknamecheckmsg !== "" && confirmJoin.nicknamecheck ? 
-                        (<p>{confirmJoin.nicknamecheckmsg}</p>):
-                        (<p>{confirmJoin.nicknamecheckmsg}</p>)}
-                    </div>
-                    <div>
-                        <label className="label">
-                            <span className="label-text m-auto p-3">비밀번호를 입력해주세요.</span>
+                        <label className="label text-lg">
+                            <span className="m-auto p-3">ID로 사용할 이메일을 입력해주세요.</span>
                         </label>
-                        <input type="password" placeholder="비밀번호" className="input input-bordered w-full max-w-xs m-auto" onChange={onChange} value={join.password} name="password" />
-                        {confirmJoin.password? <p>사용 가능한 비밀번호입니다!</p> : 
-                        <p>비밀번호는 영문 + 숫자 + 특수문자를 조합하여 8~25자리여야 합니다.</p>}
+                        <div className="flex">
+                            <input type="email" placeholder="ID" className="input input-bordered w-full max-w-xs m-auto" onChange={onChange} value={join.id} name="id" />
+                            {confirmJoin.id? 
+                                (<label className="btn w-25 h-10" onClick={checkSameId}>중복확인</label>): 
+                                (<label className="btn btn-outline btn-disabled w-25 h-10">중복확인</label>)}
+                        </div>
+                        <div className="flex justify-end mt-4">
+                            {confirmJoin.idcheckmsg !== "" ? 
+                                (<p>{confirmJoin.idcheckmsg}</p>):
+                                (<p>{confirmJoin.idcheckmsg}</p>)}
+                        </div>
                     </div>
-                    <div className="flex-auto justify-center">
-                    <label className="label">
-                        <span className="label-text m-auto p-3">비밀번호를 다시 한 번 입력해주세요.</span>
+                    <div>
+                        <label className="label text-lg">
+                            <span className="m-auto p-3">사용하실 닉네임을 입력해주세요.</span>
+                        </label>
+                    <div className="flex">
+                        <input type="text" placeholder="닉네임" className="input input-bordered w-full max-w-xs m-auto" onChange={onChange} value={join.nickname} name="nickname"/>
+                        {confirmJoin.nickname? 
+                            (<label className="btn w-25 h-10" onClick={checkSameNickname}>중복확인</label>): 
+                            (<label className="btn btn-outline btn-disabled w-25 h-10">중복확인</label>)}
+                    </div>
+                    <div className="flex justify-end mt-4">
+                        {confirmJoin.nicknamecheckmsg !== "" && confirmJoin.nicknamecheck ? 
+                            (<p>{confirmJoin.nicknamecheckmsg}</p>):
+                            (<p>{confirmJoin.nicknamecheckmsg}</p>)}
+                    </div>
+                    </div>
+                    <div>
+                        <label className="label text-lg flex flex-col">
+                            <span className="m-auto p-3">비밀번호를 입력해주세요.</span>
+                            <div className="text-xs">* 비밀번호는 영문 + 숫자 + 특수문자를 조합하여 8~25자리여야 합니다.</div>
+                        </label>
+                        <div className="flex justify-center ml-4 mr-24">
+                            <input type="password" placeholder="비밀번호" className="input input-bordered w-full max-w-xs m-auto" onChange={onChange} value={join.password} name="password" />
+                        </div>
+                        <div className="flex justify-end mt-4 text-sm">
+                            {confirmJoin.password? <p>사용 가능한 비밀번호입니다!</p> : 
+                            <p></p>}
+                        </div>
+                    </div>
+
+                    <label className="label text-lg">
+                        <span className="m-auto p-3">비밀번호를 다시 한 번 입력해주세요.</span>
                     </label>
+                    <div className="">
                     {confirmJoin.password ? (
                     <>
                     {join.password !== join.passwordConfirm ? (
                         <>
-                            <input type="password" placeholder="비밀번호 확인" className="input input-bordered input-warning w-full max-w-xs m-auto" onChange={onChange} value={join.passwordConfirm} name="passwordConfirm"/>
-                            <label className="text-red-600 block"> 비밀번호가 일치하지 않습니다 ! </label>
+                            <div className="flex justify-center ml-4 mr-24">
+                                <input type="password" placeholder="비밀번호 확인" className="input input-bordered input-warning w-full max-w-xs m-auto" onChange={onChange} value={join.passwordConfirm} name="passwordConfirm"/>
+                            </div>
+                            <div className="flex justify-end mt-4">
+                                <label className="text-red-600 block"> 비밀번호가 일치하지 않습니다 ! </label>
+                            </div>
                         </>
                         ) : (
                         <>
                             {join.password !== "" ? (
                                 <>
-                                <input type="password" placeholder="비밀번호 확인" className="input input-bordered input-success w-full max-w-xs m-auto" onChange={onChange} value={join.passwordConfirm} name="passwordConfirm"/> 
-                                <label className=" text-green-600 block"> 비밀번호가 일치합니다 ! </label>
-                                {confirmJoin.id && confirmJoin.idcheck && confirmJoin.password && confirmJoin.nickname && confirmJoin.nicknamecheck ? (
-                                    <label htmlFor="join-modal" className="btn btn-outline btn-success" onClick={createUser} >가입</label>):
-                                    <label htmlFor="join-modal" className="btn btn-outline btn-success" onClick={createUser} disabled>가입</label>}
-                                </>
+                                <div className="flex justify-center ml-4 mr-24">
+                                    <input type="password" placeholder="비밀번호 확인" className="input input-bordered input-success w-full max-w-xs m-auto" onChange={onChange} value={join.passwordConfirm} name="passwordConfirm"/> 
+                                </div>
+                                <div className="flex justify-end mt-4">
+                                    <label className=" text-green-600 block"> 비밀번호가 일치합니다 ! </label>
+                                </div>
 
-                            ) : (
-                                <>
-                                <input type="password" placeholder="비밀번호 확인" className="input input-bordered w-full max-w-xs m-auto" onChange={onChange} value={join.passwordConfirm} name="passwordConfirm"/> 
+                                <div className="flex justify-end mt-4">
+                                    {confirmJoin.id && confirmJoin.idcheck && confirmJoin.password && confirmJoin.nickname && confirmJoin.nicknamecheck ? (
+                                        <label htmlFor="join-modal" className="btn btn-outline btn-success" onClick={createUser} >가입</label>):
+                                        <label htmlFor="join-modal" className="btn btn-outline btn-success" onClick={createUser} disabled>가입</label>}
+                                </div>
+
                                 </>
+                                
+                            ) : (
+                                <div className="flex justify-center ml-4 mr-24">
+                                <input type="password" placeholder="비밀번호 확인" className="input input-bordered w-full max-w-xs m-auto" onChange={onChange} value={join.passwordConfirm} name="passwordConfirm"/> 
+                                </div>
                             )}
                         </>
                         )
                     }
                     </>
-                    ) : <input type="password" placeholder="비밀번호 확인" className="input input-bordered input-disabled w-full max-w-xs m-auto"/>
+                    ) : 
+                    <div className="flex justify-center ml-4 mr-24">
+                        <input type="password" placeholder="비밀번호 확인" className="input input-bordered input-disabled w-full max-w-xs m-auto"/>
+                    </div>
                     }   
                     </div>
                     
