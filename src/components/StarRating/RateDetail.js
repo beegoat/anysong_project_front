@@ -185,10 +185,13 @@ function RateDetail({ detailInfo, userData, API_URI }){
                     </div>
                     ) : (
                             <>
-                            <input type="text" placeholder="로그인을 해 주세요!" className="input w-full max-w-xs" disabled />
+                            <div className="border-t-8 flex justify-center">
+                                <div className="my-4">
+                                    <input type="text" placeholder="댓글은 회원만 작성할 수 있습니다." className="input m-auto" disabled />
+                                </div>
+                            </div>
                             </>
-                        )
-                    }
+                    )}
                 </div>
             </div>
         </>

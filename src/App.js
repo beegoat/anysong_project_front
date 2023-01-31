@@ -23,8 +23,9 @@ function App() {
 
     const [userData, setUserData] = useState("");
 
+
     useEffect(() => {
-        axios.post(`http://${API_URI}:3001/jwtauthcheck`)
+        axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
         .then((res) => {
             setUserData(res.data);
         })

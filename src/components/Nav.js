@@ -176,12 +176,17 @@ function Nav({ userData, setUserData,  API_URI }){
         const response = await axios.post(`http://${API_URI}:3001/login`, {
             id : login.id,
             password : login.password
-        })
+        }, {withCredentials: true})
+
+        console.log(response.data)
+        
         if(response.data === "success") {
-            await axios.post(`http://${API_URI}:3001/jwtauthcheck`)
+            await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
             .then((res) => {
                 setUserData(res.data);
+                console.log("userData setted")
             })
+            console.log("통과")
         }
         setLogin({
             id : "",
@@ -192,7 +197,7 @@ function Nav({ userData, setUserData,  API_URI }){
     }
 
     const logOut = async() => {
-        const response = axios.get(`http://${API_URI}:3001/logout`)
+        const response = axios.get(`http://${API_URI}:3001/logout`, {withCredentials: true})
         setIsAuth(false);
         home();
     }
