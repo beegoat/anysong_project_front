@@ -180,16 +180,16 @@ function Nav({ userData, setUserData,  API_URI }){
         
         if(response.data === "success") {
             console.log('아무끼나')
-            await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
+            axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
             .then((res) => {
                 setUserData(res.data);
+                setLogin({
+                    id : "",
+                    password : "" 
+                })
             }).catch((e) => {console.log(e)})
             console.log('통과')
         }
-        setLogin({
-            id : "",
-            password : "" 
-        })
     }
 
     const logOut = async() => {
