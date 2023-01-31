@@ -180,12 +180,10 @@ function Nav({ userData, setUserData,  API_URI }){
         
         if(response.data === "success") {
             console.log('아무끼나')
-            const response = await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true}).catch((e) => console.log(e))
-            console.log(response)
-            setUserData(response.data)
-            // .then((res) => {
-            //     setUserData(res.data);
-            // }).catch((e) => {console.log(e)})
+            const response = await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
+            .then((res) => {
+                setUserData(res.data);
+            }).catch((e) => {console.log(e)})
             console.log('통과')
         }
         setLogin({
