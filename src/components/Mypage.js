@@ -62,7 +62,7 @@ function Mypage( {userData, setUserData, API_URI} ){
             nickname : modifyInfo.nickname
         })
         console.log(response)
-        await axios.post(`http://${API_URI}:3001/jwtauthcheck`)
+        await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
             .then((res) => {
                 setUserData(res.data);
             })
@@ -72,7 +72,7 @@ function Mypage( {userData, setUserData, API_URI} ){
         const response = await axios.put(`http://${API_URI}:3001/myintroduction`, {
             introduction : modifyInfo.introduction
         })
-        await axios.post(`http://${API_URI}:3001/jwtauthcheck`)
+        await axios.post(`http://${API_URI}:3001/jwtauthcheck`,{withCredentials: true})
             .then((res) => {
                 setUserData(res.data);
             })
@@ -122,7 +122,7 @@ function Mypage( {userData, setUserData, API_URI} ){
             password : modifyInfo.newPassword
         })
 
-        await axios.post(`http://${API_URI}:3001/jwtauthcheck`)
+        await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
             .then((res) => {
                 setUserData(res.data);
             })
