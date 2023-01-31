@@ -198,7 +198,6 @@ function Nav({ userData, setUserData,  API_URI }){
 
     const logOut = async() => {
         const response = axios.get(`http://${API_URI}:3001/logout`, {withCredentials: true})
-        setIsAuth(false);
         home();
     }
     
