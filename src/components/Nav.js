@@ -176,11 +176,16 @@ function Nav({ userData, setUserData,  API_URI }){
             id : login.id,
             password : login.password
         })
+
+        console.log(response.data)
+        
         if(response.data === "success") {
             await axios.post(`http://${API_URI}:3001/jwtauthcheck`)
             .then((res) => {
                 setUserData(res.data);
+                console.log("userData setted")
             })
+            console.log("통과")
         }
         setLogin({
             id : "",
