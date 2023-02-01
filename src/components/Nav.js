@@ -180,10 +180,11 @@ function Nav({ userData, setUserData,  API_URI }){
         console.log(response.data)
         
         if(response.data === "success") {
-            await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
+            await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {})
             .then((res) => {
+                console.log(res.data)
                 setUserData(res.data);
-                console.log("userData setted")
+                
             })
             console.log("통과")
         }
@@ -194,7 +195,7 @@ function Nav({ userData, setUserData,  API_URI }){
     }
 
     const logOut = async() => {
-        const response = axios.get(`http://${API_URI}:3001/logout`, {withCredentials: true})
+        const response = axios.get(`http://${API_URI}:3001/logout`, {})
         setIsAuth(false);
         home();
     }
