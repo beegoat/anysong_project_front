@@ -212,7 +212,7 @@ function Mypage( {userData, setUserData, API_URI} ){
             
             {/* 내 평가 관리 */}
             {categorySelect === 1 ? (
-                <div className="w-full">
+                <div className="w-1177 h-820">
                     <div className="my-12">
                         <div className=" my-4 text-center">
                             <div className="mx-auto inline-block text-3xl text-center border-y-4">평가한 앨범</div>
