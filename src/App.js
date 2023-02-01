@@ -17,8 +17,8 @@ import SearchInfo from "./components/SearchInfo"
 
 function App() {
 
-    // const API_URI = 'localhost'
-    const API_URI = '43.201.140.172'
+    const API_URI = 'localhost'
+    // const API_URI = '43.201.140.172'
 
 
     const [userData, setUserData] = useState("");
