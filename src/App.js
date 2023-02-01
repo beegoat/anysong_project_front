@@ -19,8 +19,9 @@ function App() {
 
     // const API_URI = 'localhost'
     // const API_URI = '43.201.140.172'
-    const API_URI = '3.39.181.6'
-    
+    // const API_URI = '3.39.181.6'
+    const API_URI = 'api.deepal.site'
+
     const [userData, setUserData] = useState("");
 
 
