@@ -7,6 +7,7 @@ import SearchMusic from "./SearchMusic";
 
 axios.defaults.withCredentials = true;
 
+
 function Nav({ userData, setUserData,  API_URI }){
 
     const [isAuth, setIsAuth] = useState("");
@@ -176,9 +177,10 @@ function Nav({ userData, setUserData,  API_URI }){
         const response = await axios.post(`http://${API_URI}:3001/login`, {
             id : login.id,
             password : login.password
-        }, {withCredentials: true})
+        })
         
         if(response.data === "success") {
+            console.log(response.data, 'success 통과')
             await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {})
             .then((res) => {
                 console.log(res.data)
@@ -188,7 +190,6 @@ function Nav({ userData, setUserData,  API_URI }){
                     password : "" 
                 })
             }).catch((e) => {console.log(e)})
-            console.log('통과')
         }
     }
 
@@ -261,7 +262,7 @@ function Nav({ userData, setUserData,  API_URI }){
                         ) }
                 </div>
             </div>
-            {(`http://${API_URI}:3000/` === window.location.href) ? 
+            {('http://deepal.site' === window.location.href) ? 
             <div className="flex">
                 <div className="w-1/3 h-11"></div>
                 

@@ -16,9 +16,13 @@ import SearchInfo from "./components/SearchInfo"
 
 
 function App() {
+    
 
     // const API_URI = 'localhost'
-    const API_URI = '43.201.140.172'
+    // const API_URI = '43.201.140.172'
+    const API_URI = '3.39.181.6'
+
+    axios.defaults.withCredentials = true;
 
 
     const [userData, setUserData] = useState("");

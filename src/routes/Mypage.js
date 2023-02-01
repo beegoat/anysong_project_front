@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+
 import { Link, redirect, useNavigate, useRouteLoaderData } from "react-router-dom";
 
 
 function Mypage( {userData, setUserData, API_URI} ){
 
+    axios.defaults.withCredentials = true;
     const navigate = useNavigate
+    
 
     const [categorySelect, setCategorySelect] = useState(0)
     const [mySong, setMySong] = useState([])
