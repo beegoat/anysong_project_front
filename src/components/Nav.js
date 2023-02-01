@@ -172,26 +172,24 @@ function Nav({ userData, setUserData,  API_URI }){
 
 
     const getLogin = async() => {
+        
         const response = await axios.post(`http://${API_URI}:3001/login`, {
             id : login.id,
             password : login.password
         }, {withCredentials: true})
-
-        console.log(response.data)
         
         if(response.data === "success") {
             await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {})
             .then((res) => {
                 console.log(res.data)
                 setUserData(res.data);
-                
-            })
-            console.log("통과")
+                setLogin({
+                    id : "",
+                    password : "" 
+                })
+            }).catch((e) => {console.log(e)})
+            console.log('통과')
         }
-        setLogin({
-            id : "",
-            password : "" 
-        })
     }
 
     const logOut = async() => {

@@ -61,21 +61,28 @@ function Mypage( {userData, setUserData, API_URI} ){
         const response = await axios.put(`http://${API_URI}:3001/mynickname`, {
             nickname : modifyInfo.nickname
         })
-        console.log(response)
+        try{
         await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
             .then((res) => {
                 setUserData(res.data);
             })
+        } catch(e) {
+            console.error(e)
+        }
     }
 
     const modifyIntroduction = async() => {
         const response = await axios.put(`http://${API_URI}:3001/myintroduction`, {
             introduction : modifyInfo.introduction
         })
-        await axios.post(`http://${API_URI}:3001/jwtauthcheck`,{withCredentials: true})
-            .then((res) => {
-                setUserData(res.data);
-            })
+        try{
+            await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
+                .then((res) => {
+                    setUserData(res.data);
+                })
+            } catch(e) {
+                console.error(e)
+            }
     }
 
     const checkPw = async() => {
@@ -122,15 +129,27 @@ function Mypage( {userData, setUserData, API_URI} ){
             password : modifyInfo.newPassword
         })
 
-        await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
-            .then((res) => {
-                setUserData(res.data);
-            })
+        try{
+            await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
+                .then((res) => {
+                    setUserData(res.data);
+                })
+            } catch(e) {
+                console.error(e)
+            }
     }
 
     const withDraw = async() => {
         const response = await axios.put(`http://${API_URI}:3001/withdraw`, {})
-        console.log(response)
+        try{
+            await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
+                .then((res) => {
+                    setUserData(res.data);
+                })
+            home();
+            } catch(e) {
+                console.error(e)
+            }
     }
 
     // 내 정보 불러오기
@@ -150,6 +169,10 @@ function Mypage( {userData, setUserData, API_URI} ){
         const response = await axios.get(`http://${API_URI}:3001/myarticleinfo`, {})
         if(response.data[0].length === 0){return} 
         setMyArticle(response.data[0])
+    }
+
+    const home = () => {
+        window.location.href="/"
     }
 
     useEffect(() => {

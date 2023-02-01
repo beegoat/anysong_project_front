@@ -11,7 +11,7 @@ import Board from "./routes/Board";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import RateDetail from "./components/StarRating/RateDetail";
-import Mypage from "./components/Mypage";
+import Mypage from "./routes/Mypage";
 import SearchInfo from "./components/SearchInfo"
 
 
@@ -25,10 +25,14 @@ function App() {
 
 
     useEffect(() => {
-        axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
-        .then((res) => {
-            setUserData(res.data);
-        })
+        try{
+            axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
+            .then((res) => {
+                setUserData(res.data);
+            })
+        } catch(e) {
+            console.error(e)
+        }
     }, []);
     
     // 
