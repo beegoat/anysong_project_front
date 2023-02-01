@@ -262,7 +262,7 @@ function Nav({ userData, setUserData,  API_URI }){
                         ) }
                 </div>
             </div>
-            {('http://deepal.site' === window.location.href) ? 
+            {('http://deepal.site/' === window.location.href) ? 
             <div className="flex">
                 <div className="w-1/3 h-11"></div>
                 
