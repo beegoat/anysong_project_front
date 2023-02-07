@@ -113,11 +113,6 @@ function BoardDetails({ userData, setUserData, API_URI}) {
         })
         setComments(response.data[0])
         setCommentArticle("")
-
-        await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
-        .then((res) => {
-            setUserData(res.data);
-        })
         
         // 댓글이 하
         // navigate(0);
