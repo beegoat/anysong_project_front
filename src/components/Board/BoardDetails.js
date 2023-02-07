@@ -6,7 +6,7 @@ import BoardComment from './BoardComment';
 import PaginationComment from '../PaginationComment';
 
 
-function BoardDetails({ userData, API_URI}) {
+function BoardDetails({ userData, setUserData, API_URI}) {
     const params = useParams();
     const navigate = useNavigate();
     const [article, setArticle] = useState([]);
@@ -113,6 +113,10 @@ function BoardDetails({ userData, API_URI}) {
         const response = await axios.post(`http://${API_URI}:3001/board/comment/${params.id}`, {
             content : commentArticle,
             user_id : userData.user
+        })
+        await axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
+        .then((res) => {
+            setUserData(res.data);
         })
         setComments(response.data[0])
         setCommentArticle("")

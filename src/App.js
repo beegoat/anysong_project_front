@@ -77,6 +77,7 @@ function App() {
                                 <Route path="/board/*" element={
                                 <Board 
                                     userData={userData}
+                                    setUserData={setUserData}
                                     API_URI={API_URI} />
                                 }/>
                             </Routes>
