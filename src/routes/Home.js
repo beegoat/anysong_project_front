@@ -10,7 +10,6 @@ function Home( { API_URI }){
 
     const getTopRate = async() => {
         const response = await axios.get(`http://${API_URI}:3001/getTopRate`)
-        console.log(response)
         setTopRating(response.data)
     }
 
