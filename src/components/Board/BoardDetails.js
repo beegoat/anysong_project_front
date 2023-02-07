@@ -31,9 +31,6 @@ function BoardDetails({ userData, setUserData, API_URI}) {
         getArticle();
     }, [])
 
-    useEffect(() => {
-        getArticle();
-    }, [comments])
 
     // 글 삭제 함수, 삭제 후 navigate로 경로 이동
     const deleteArticle = async() => {
