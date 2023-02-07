@@ -23,6 +23,7 @@ function BoardDetails({ userData, setUserData, API_URI}) {
     const getArticle = async() => {
         const id = params.id
         const response = await axios.get(`http://${API_URI}:3001/board/${id}`, {})
+        console.log(response)
         setArticle(response.data[0])
         setComments(response.data)
     }
