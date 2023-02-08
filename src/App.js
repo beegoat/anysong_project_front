@@ -32,6 +32,7 @@ function App() {
         try{
             axios.post(`http://${API_URI}:3001/jwtauthcheck`, {withCredentials: true})
             .then((res) => {
+                console.log(res)
                 setUserData(res.data);
             })
         } catch(e) {
