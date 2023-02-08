@@ -32,6 +32,7 @@ function BoardWrite({ userData, API_URI }){
             user_id : userData.user,
             category : categoryNum
         })
+        console.log(response.data)
         // navigate(`/board/${response.data[0][0].id}/total`);
         switch(categoryNum) {
             case 1 : 
