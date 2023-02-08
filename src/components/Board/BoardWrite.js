@@ -114,7 +114,7 @@ function BoardWrite({ userData, API_URI }){
                     {toggleOn === false ? (
                         <button className="btn" onClick={confirmCategory}>글 작성</button>
                     ) : (<div className="tooltip tooltip-open tooltip-error tooltip-right" data-tip="카테고리를 선택해주세요">
-                        <button className="btn btn-disabled" onClick={confirmCategory}>글 작성</button>
+                        <button className="btn" onClick={confirmCategory}>글 작성</button>
                         </div>)
                     }
                 </div>
